@@ -1,0 +1,44 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background-color: #83a3ad;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 100;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  background-color: #83a3ad;
+  color: #ebe9ac;
+}
+
+header, main, footer {
+  padding: 20px;
+  text-align: center;
+}
+
+main {
+  padding-top: 50px;
+}
+
+footer {
+  background-color: #83a3ad;
+  color: #ebe9ac;
+  padding: 10px 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}

@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block main %}
+  <section>
+    <h2>Posso pagar menos IMI?</h2>
+    <p>
+      O valor do Imposto Municipal sobre Imóveis a pagar é
+      uma percentagem (definida pela Câmara Municipal) do Valor
+      Patrimonial Tributário do imóvel.
+    </p>
+    <p>
+      Este é, por sua vez, determinado por uma avaliação feita
+      pela Autoridade Tributária, e o seu valor aumenta todos os anos.
+    </p>
+    <p>
+      De 3 em 3 anos, pode pedir a reavaliação do imóvel. No entanto,
+      deve garantir que ela conduz a um Valor Patrimonial Tributário
+      inferior. Afinal
+    </p>
+  </section>
+
+
+
+<section>
+  <h2>Insira os dados do seu imóvel</h2>
+  <p>Pode carregar a Caderneta Predial Urbana do imóvel ou inserir os dados
+    manualmente.</p>
+  <button class="btn btn-primary" type="submit">Carregar CPU</button>
+  <button class="btn btn-primary" type="submit">Inserir manualmente</button>
+</section>
+
+{% endblock %}
