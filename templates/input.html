@@ -3,37 +3,45 @@
 {% block main %}
 
 <section>
-  <form action="/compute" method="post">
-    <h2>Dados de avaliação</h2>
-    <div class="form-container">
-      <input autocomplete="off" autofocus name="concelho" placeholder="Concelho" type="text">
-      <span class="help-icon" onclick="showPopup('popup1')">?</span>
-      <div class="popup" id="popup1">
-          <p>This is an explanation for Field 1.</p>
-          <img src="example.jpg" alt="Example Image">
+  <form action="/compute" method="post" class="form-container">
+    <h4>Localização</h4>
+      <div class="field-container">
+        <input autocomplete="off" autofocus name="concelho" placeholder="Concelho" type="text">
+        <i class="far fa-question-circle question-mark"></i>
       </div>
-    </div>
-    <div>
-      <input autocomplete="off" autofocus name="ano_de_inscricao_matriz" placeholder="Ano de inscrição na matriz" type="text">
-    </div>
-    <div>
-      <input autocomplete="off" autofocus name="vpt_actual" placeholder="Valor Patrimonial Actual (CIMI)" type="text">
-    </div>
-    <div>
-      <input autocomplete="off" autofocus name="data_avaliacao" placeholder="Avaliada em" type="date">
-    </div>
-    <div>
-      <input autocomplete="off" autofocus name="avaliacao_A" placeholder="Área de Avaliação (A)" type="text">
-    </div>
-    <div>
-      <input autocomplete="off" autofocus name="avaliacao_Ca" placeholder="Coeficiente de Afectação (Ca)" type="text">
-    </div>
-    <div>
-      <input autocomplete="off" autofocus name="Cl" placeholder="Coeficiente de Localização (Cl)" type="text">
-    </div>
-    <div>
-      <input autocomplete="off" autofocus name="Cq" placeholder="Coeficiente de Qualidade e Conforto (Cq)" type="text">
-    </div>
+    <h4>Valor Patrimonial Actual</h4>
+      <div class="field-container">
+        <input autocomplete="off" autofocus name="vpt_actual" placeholder="Valor Patrimonial Actual (CIMI)" type="text">
+        <i class="far fa-question-circle question-mark"></i>
+      </div>
+    <h4>Área</h4>
+      <div class="field-container">
+        <input autocomplete="off" autofocus name="avaliacao_A" placeholder="Área de Avaliação (A)" type="text">
+        <i class="far fa-question-circle question-mark"></i>
+      </div>
+    <h4>Coeficientes</h4>
+      <div class="field-container">
+        <input autocomplete="off" autofocus name="avaliacao_Ca" placeholder="Coeficiente de Afectação (Ca)" type="text">
+        <i class="far fa-question-circle question-mark"></i>
+      </div>
+      <div class="field-container">
+        <input autocomplete="off" autofocus name="Cl" placeholder="Coeficiente de Localização (Cl)" type="text">
+        <i class="far fa-question-circle question-mark"></i>
+      </div>
+      <div class="field-container">
+        <input autocomplete="off" autofocus name="Cq" placeholder="Coeficiente de Qualidade e Conforto (Cq)" type="text">
+        <i class="far fa-question-circle question-mark"></i>
+      </div>
+    <h4>Datas</h4>
+      <div class="field-container">
+        <input autocomplete="off" autofocus name="ano_de_inscricao_matriz" placeholder="Ano de inscrição na matriz" type="text">
+        <i class="far fa-question-circle question-mark"></i>
+      </div>
+      <div class="field-container">
+        <input autocomplete="off" autofocus name="data_avaliacao" placeholder="Avaliada em" type="date">
+        <i class="far fa-question-circle question-mark"></i>
+      </div>
+
     <button class="btn btn-primary" type="submit">Calcular</button>
 </form>
 
