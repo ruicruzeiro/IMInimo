@@ -4,11 +4,81 @@ body {
   padding: 0;
 }
 
+header {
+  padding: 20px;
+  text-align: center;
+}
+
+main {
+  padding-top: 50px;
+  text-align: center;
+}
+
+footer {
+  background-color: #83a3ad;
+  color: #f2f2f2;
+  padding: 10px 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  text-align: center;
+}
+
+button {
+  background-color: #83a3ad; /* Green background */
+  color: #f2f2f2;
+  padding: 10px 20px; /* Padding for the button */
+  border: none; /* Remove default border */
+  border-radius: 25px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-family: "Montserrat";
+  font-size: 16px; /* Font size */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+button:hover {
+  background-color: #83a3ad; /* Darker green on hover */
+  color: #ebe9ac;
+
+}
+
+p {
+  font-family: "Lora", sans-serif;
+}
+
+h2 {
+  font-family: "Montserrat";
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+input[type="text"], input[type="date"] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 25%;
+  box-sizing: border-box;
+}
+
+
+
+
 .navbar {
   background-color: #83a3ad;
   overflow: hidden;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 100;
+  font-weight: bold;
 }
 
 .navbar a {
@@ -25,20 +95,13 @@ body {
   color: #ebe9ac;
 }
 
-header, main, footer {
+
+.form-container {
+  max-width: 400px; /* Set a fixed max width or percentage */
+  margin: 50px auto; /* Center the form */
   padding: 20px;
-  text-align: center;
-}
-
-main {
-  padding-top: 50px;
-}
-
-footer {
-  background-color: #83a3ad;
-  color: #ebe9ac;
-  padding: 10px 0;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }

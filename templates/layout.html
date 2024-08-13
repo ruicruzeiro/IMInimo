@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>IMInimo</title>
-    <link href="/static/styles.css" rel="stylesheet">
+    <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet">
 </head>
 <body>
     <div class="navbar">
@@ -24,5 +24,8 @@
     <footer>
         <p>&copy; 2024 Rui Cruzeiro</p>
     </footer>
+
+    <script src="{{url_for('static', filename='scripts.js')}}"></script>
+
 </body>
 </html>

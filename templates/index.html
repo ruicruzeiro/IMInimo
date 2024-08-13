@@ -26,7 +26,11 @@
   <p>Pode carregar a Caderneta Predial Urbana do imóvel ou inserir os dados
     manualmente.</p>
   <button class="btn btn-primary" type="submit">Carregar CPU</button>
-  <button class="btn btn-primary" type="submit">Inserir manualmente</button>
+  <a href="{{ url_for('input') }}">
+  <button class="btn btn-primary">
+    Inserir manualmente
+  </button>
+  </a>
 </section>
 
 {% endblock %}
