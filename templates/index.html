@@ -2,7 +2,7 @@
 
 {% block main %}
   <section>
-    <h2>Posso pagar menos IMI?</h2>
+    <h2>Menos IMI, mais para si.</h2>
     <p>
       O valor do Imposto Municipal sobre Imóveis a pagar é
       uma percentagem (definida pela Câmara Municipal) do Valor
@@ -25,11 +25,20 @@
   <h2>Insira os dados do seu imóvel</h2>
   <p>Pode carregar a Caderneta Predial Urbana do imóvel ou inserir os dados
     manualmente.</p>
-  <button class="btn btn-primary" type="submit">Carregar CPU</button>
-  <a href="{{ url_for('input') }}">
-  <button class="btn btn-primary">
-    Inserir manualmente
-  </button>
+  <div class="box-container">
+    <a class="box" style="background-color: #003366" href="">
+      <h2>Poupar no IMI?</h2>
+      <h4>O que são as reavaliações da Autoridade Tributária</h4>
+    </a>
+    <a class="box" style="background-color: #5C2A9B" href="" type="submit">
+      <h2>Inserir Caderneta Predial</h2>
+      <h4>Carregue a sua Caderneta Predial Urbana e deixe-nos calcular a sua poupança automaticamente</h4>
+    </a>
+    <a class="box" style="background-color: #4169E1" href="{{ url_for('input') }}">
+      <h2>Inserir manualmente</h2>
+      <h4>Se preferir, insira manualmente os dados da sua Caderneta Predial</h4>
+    </a>
+  </div>
   </a>
 </section>
 
