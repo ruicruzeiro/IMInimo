@@ -4,15 +4,10 @@ body {
   height: 100vh;
   justify-content: center;
   align-items: center;
-}
-
-header {
-  padding: 20px;
-  text-align: center;
+  background-color: #f4f4f4;
 }
 
 main {
-  padding-top: 50px;
   text-align: center;
   display: grid;
   justify-content: center;
@@ -35,6 +30,7 @@ h2 {
 h4 {
   font-family: "Montserrat";
   font-weight: 100;
+  margin: 5px 0;
 }
 
 a {
@@ -46,15 +42,11 @@ form {
   flex-direction: column;
 }
 
-label {
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #333;
-}
 
 
 
 .navbar {
+  height: 100px;
   overflow: hidden;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
@@ -63,15 +55,16 @@ label {
 .navbar a {
   float: left;
   display: block;
-  color: #83a3ad;
+  color: #003366;
   text-align: center;
   padding: 14px 20px;
   text-decoration: none;
 }
 
 .navbar a:hover {
-  background-color: #83a3ad;
-  color: #ebe9ac;
+  background-color: #003366;
+  color: white;
+  border-radius: 10px;
 }
 
 .section {
@@ -79,26 +72,29 @@ label {
 }
 
 .form-container {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.6s ease, max-height 0.6s ease;
 }
 
 .field-container {
+  flex: 1;
   display: flex;
   align-items: center;
   width: 80%;
+  height: 10px;
+}
+
+.coef-container {
+  width: 300px;
+  gap: 40px;
 }
 
 
+
 .field-container input {
-  padding: 10px;
+  padding: 5px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -110,15 +106,15 @@ label {
 
 .field-container input:focus {
   outline: 1px solid #53595b;
+  margin-bottom: 15px;
 }
 
 .box-container {
-  width: 90%;
   height: 200px;
   padding: 50px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: nowrap;
 }
 
@@ -140,25 +136,58 @@ label {
 }
 
 .box:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+}
+
+.box.expanded {
+  transform: translateY(0);
+  height: auto;
+}
+
+.box.expanded .form-container {
+  opacity: 1;
+  max-height: 800px;
+  align-items: start;
+}
+
+.h4-hidden {
+  font-family: "Montserrat";
+  font-weight: 200;
+}
+
+
+.box.expanded .h4-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
 }
 
 .smaller-button {
-  background-color: #83a3ad; /* Green background */
+  margin-top: 20px;
   color: #f2f2f2;
-  padding: 10px 20px; /* Padding for the button */
-  border: none; /* Remove default border */
-  border-radius: 25px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
   font-family: "Montserrat";
-  font-size: 16px; /* Font size */
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.smaller-button-color-1 {
+  color: #003366;
+}
+
+.smaller-button-color-2 {
+  color: #5C2A9B;
+}
+
+.smaller-button-color-3 {
+  color: #4169E1;
 }
 
 .smaller-button:hover {
-  background-color: #83a3ad; /* Darker green on hover */
-  color: #ebe9ac;
-  transform: translateY(-2px);
+  background-color: #FFD700; /* Darker green on hover */
 }
 
 

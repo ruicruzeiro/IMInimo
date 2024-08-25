@@ -9,6 +9,10 @@ def index():
     """Homepage/Short app presentation to the user"""
     return render_template("index.html")
 
+@app.route("/upload")
+def upload():
+    """Page for loading of CPU document"""
+    return render_template("upload.html")
 
 @app.route("/input")
 def input():

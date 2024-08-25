@@ -26,3 +26,22 @@ document.addEventListener('click', function(event) {
       });
   }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const boxes = document.querySelectorAll('.box');
+  boxes.forEach(box => {
+      const content = box.querySelector('.form-container');
+      box.addEventListener('click', function() {
+          boxes.forEach(b => {
+              if (b !== box) {
+                  b.classList.remove('expanded');
+              }
+          });
+          box.classList.toggle('expanded');
+      });
+
+      content.addEventListener('click', function(event) {
+          event.stopPropagation();
+    });
+  });
+});

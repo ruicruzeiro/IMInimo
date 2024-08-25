@@ -3,43 +3,79 @@
 {% block main %}
   <section>
     <h2>Menos IMI, mais para si.</h2>
-    <p>
-      O valor do Imposto Municipal sobre Imóveis a pagar é
-      uma percentagem (definida pela Câmara Municipal) do Valor
-      Patrimonial Tributário do imóvel.
-    </p>
-    <p>
-      Este é, por sua vez, determinado por uma avaliação feita
-      pela Autoridade Tributária, e o seu valor aumenta todos os anos.
-    </p>
-    <p>
-      De 3 em 3 anos, pode pedir a reavaliação do imóvel. No entanto,
-      deve garantir que ela conduz a um Valor Patrimonial Tributário
-      inferior. Afinal
-    </p>
   </section>
 
 
 
 <section>
-  <h2>Insira os dados do seu imóvel</h2>
-  <p>Pode carregar a Caderneta Predial Urbana do imóvel ou inserir os dados
-    manualmente.</p>
   <div class="box-container">
-    <a class="box" style="background-color: #003366" href="">
-      <h2>Poupar no IMI?</h2>
-      <h4>O que são as reavaliações da Autoridade Tributária</h4>
-    </a>
-    <a class="box" style="background-color: #5C2A9B" href="" type="submit">
+    <div class="box" style="background-color: #003366">
+      <h2>Como poupar no IMI</h2>
+      <div class="h4-hidden">Compreenda as reavaliações da Autoridade Tributária</div>
+        <div class="form-container">
+          <h4>
+            O valor do Imposto Municipal sobre Imóveis a pagar é
+            uma percentagem (definida pela Câmara Municipal) do Valor
+            Patrimonial Tributário do imóvel.<br><br>
+            Este é, por sua vez, determinado por uma avaliação feita
+            pela Autoridade Tributária, e o seu valor aumenta todos os anos.
+            De 3 em 3 anos, pode pedir a reavaliação do imóvel.<br><br>
+            No entanto, deve garantir que ela conduz a um Valor Patrimonial
+            Tributário inferior. Afinal, o objectivo é poupar!
+          </h4>
+        </div>
+    </div>
+    <div class="box" style="background-color: #5C2A9B">
       <h2>Inserir Caderneta Predial</h2>
-      <h4>Carregue a sua Caderneta Predial Urbana e deixe-nos calcular a sua poupança automaticamente</h4>
-    </a>
-    <a class="box" style="background-color: #4169E1" href="{{ url_for('input') }}">
+      <div class="h4-hidden">Carregue a sua Caderneta Predial Urbana e para calcularmos a sua poupança automaticamente</div>
+      <div class="form-container">
+        <h4>
+          A Caderneta Predial deverá estar em formato PDF e não ser digitalizada.<br><br>
+          Pode obter este documento no formato correcto no site da Autoridade Tributária.
+        </h4>
+        <button class="smaller-button smaller-button-color-2" type="submit">Carregar PDF</button>
+      </div>
+    </div>
+    <div class="box" style="background-color: #4169E1">
       <h2>Inserir manualmente</h2>
-      <h4>Se preferir, insira manualmente os dados da sua Caderneta Predial</h4>
-    </a>
+      <div class="h4-hidden">Se preferir, insira manualmente os dados da sua Caderneta Predial</div>
+      <div class="form-container">
+        <form action="/compute" method="post">
+          <div class="field-container">
+            <input autocomplete="off" autofocus name="concelho" placeholder="Concelho" type="text">
+            <i class="far fa-question-circle question-mark"></i>
+          </div>
+          <div class="field-container">
+            <input autocomplete="off" autofocus name="vpt_actual" placeholder="Valor Patrimonial Actual (CIMI)" type="text">
+            <i class="far fa-question-circle question-mark"></i>
+          </div>
+          <div class="field-container">
+            <input autocomplete="off" autofocus name="avaliacao_A" placeholder="Área de Avaliação (A)" type="text">
+            <i class="far fa-question-circle question-mark"></i>
+          </div>
+          <div class="field-container">
+            <input autocomplete="off" autofocus name="ano_de_inscricao_matriz" placeholder="Ano de inscrição na matriz" type="text">
+            <i class="far fa-question-circle question-mark"></i>
+          </div>
+          <h4>Data da última avaliação</h4>
+          <div class="field-container">
+            <input autocomplete="off" autofocus name="data_avaliacao" placeholder="Avaliada em" type="date">
+            <i class="far fa-question-circle question-mark"></i>
+          </div>
+          <h4>Coeficientes</h4>
+          <div class="field-container coef-container">
+            <input autocomplete="off" autofocus name="avaliacao_Ca" placeholder="Ca" type="text">
+            <input autocomplete="off" autofocus name="Cl" placeholder="Cl" type="text">
+            <input autocomplete="off" autofocus name="Cq" placeholder="Cq" type="text">
+            <i class="far fa-question-circle question-mark"></i>
+          </div>
+          <button class="smaller-button smaller-button-color-3" type="submit">Calcular</button>
+        </form>
+      </div>
+    </div>
   </div>
-  </a>
 </section>
+
+
 
 {% endblock %}
