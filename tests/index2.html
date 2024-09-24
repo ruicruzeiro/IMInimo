@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Centering Example</title>
+    <style>
+        .box-container {
+            position: relative;
+            height: 400px;
+            background: #f4f4f4;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .box {
+            display: inline-block;
+            width: 200px;
+            height: 100px;
+            margin: 20px;
+            background: #ddd;
+        }
+
+        .popup {
+            position: absolute;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+    <div class="box-container">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="popup" id="popup">This is a centered popup!</div>
+    </div>
+    <button onclick="showPopup()">Show Popup</button>
+
+    <script>
+        // Include the updated showPopup function here
+    </script>
+</body>
+</html>

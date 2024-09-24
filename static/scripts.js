@@ -1,32 +1,4 @@
-
-function showPopup(popupId) {
-  var popup = document.getElementById(popupId);
-  if (popup.style.display === "block") {
-      popup.style.display = "none";
-  } else {
-      // Hide any other open popups
-      var popups = document.querySelectorAll('.popup');
-      popups.forEach(function(p) {
-          p.style.display = 'none';
-      });
-
-      popup.style.display = "block";
-  }
-}
-
-// Optional: Close the popup when clicking outside of it
-document.addEventListener('click', function(event) {
-  var isClickInsidePopup = event.target.closest('.popup');
-  var isClickOnIcon = event.target.classList.contains('help-icon');
-
-  if (!isClickInsidePopup && !isClickOnIcon) {
-      var popups = document.querySelectorAll('.popup');
-      popups.forEach(function(popup) {
-          popup.style.display = 'none';
-      });
-  }
-});
-
+// Box behaviour
 document.addEventListener('DOMContentLoaded', function() {
   const boxes = document.querySelectorAll('.box');
   boxes.forEach(box => {
@@ -42,6 +14,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
       content.addEventListener('click', function(event) {
           event.stopPropagation();
+    });
+  });
+});
+
+
+// Help text popup behaviour
+document.addEventListener('DOMContentLoaded', function() {
+  const questionMarks = document.querySelectorAll('.question-mark'); // All question mark icons
+  let currentHelpText = null; // To keep track of currently visible help text
+
+  // Loop through each question mark
+  questionMarks.forEach((icon) => {
+    icon.addEventListener('click', function() {
+      const targetId = this.getAttribute('text-id');
+      const helpText = document.getElementById(targetId);
+
+      if (currentHelpText && currentHelpText !== helpText) {
+        currentHelpText.style.display = 'none';
+      }
+
+      if (helpText.style.display === 'block') {
+        helpText.style.display = 'none';
+        currentHelpText = null;
+      } else {
+        helpText.style.display = 'block';
+        currentHelpText = helpText;
+      }
     });
   });
 });
