@@ -54,42 +54,41 @@
             <input autocomplete="off" autofocus name="vpt_actual" placeholder="Valor Patrimonial Actual (CIMI)" type="text">
             <i class="far fa-question-circle question-mark" text-id="text-1" id="questionIcon"></i>
           </div>
-          <div class="help-text" id="text-1">O Valor Patrimonial Actual pode ser encontrado na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div><br>
+          <div class="help-text" id="text-1">O Valor Patrimonial Actual pode ser encontrado na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
           <div class="field-container">
             <input autocomplete="off" autofocus name="avaliacao_A" placeholder="Área de Avaliação (A)" type="text">
             <i class="far fa-question-circle question-mark" text-id="text-2"></i>
           </div>
-          <div class="help-text" id="text-2">A Área de Avaliação pode ser encontrada na secção "Dados de Avaliação" da Caderneta Predial Urbana, no quadro de cálculo do Valor Patrimonial (factor "A", na terceira quadrícula).</div><br>
+          <div class="help-text" id="text-2">A Área de Avaliação pode ser encontrada na secção "Dados de Avaliação" da Caderneta Predial Urbana, no quadro de cálculo do Valor Patrimonial (factor "A", na terceira quadrícula).</div>
 
           <div class="field-container">
             <input autocomplete="off" autofocus name="ano_de_inscricao_matriz" placeholder="Ano de inscrição na matriz" type="text">
             <i class="far fa-question-circle question-mark" text-id="text-3"></i>
           </div>
-          <div class="help-text" id="text-3">O Ano de Inscrição na Matriz é o primeiro campo da secção "Dados de Avaliação" da Caderneta Predial Urbana.</div><br>
+          <div class="help-text" id="text-3">O Ano de Inscrição na Matriz é o primeiro campo da secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
           <h4>Data da última avaliação<i class="far fa-question-circle question-mark" text-id="text-4"></i></h4>
           <div class="field-container">
             <input autocomplete="off" autofocus name="data_avaliacao" placeholder="Avaliada em" type="date">
           </div>
-          <div class="help-text" id="text-4">A data da última avaliação corresponde ao campo "Avaliada em" na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div><br>
+          <div class="help-text" id="text-4">A data da última avaliação corresponde ao campo "Avaliada em" na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
           <h4>Coeficientes<i class="far fa-question-circle question-mark" text-id="text-5" id="questionIcon"></i></h4>
           <div class="field-container coef-container">
             <input autocomplete="off" autofocus name="avaliacao_Ca" placeholder="Ca" type="text">
-            <input autocomplete="off" autofocus name="Cl" placeholder="Cl" type="text">
             <input autocomplete="off" autofocus name="Cq" placeholder="Cq" type="text">
+            <input autocomplete="off" autofocus name="Cl" placeholder="Cl" type="text">
           </div>
-          <div>
-            <p>Ca - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi41.aspx" target="_blank">
-              Coeficiente de afectação</a> - Depende do tipo de utilização do imóvel (habitação, comércio, estacionamento, etc.).</p>
-            <p>Cl - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi42.aspx" target="_blank">
-              Coeficiente de localização</a> - Depende da localização do imóvel. Consulte o mapa dos coeficientes
-              <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">aqui</a>.</p>
-            <p>Cq - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi43.aspx" target="_blank">
-                Coeficiente de qualidade e conforto</a> - Depende dos equipamentos instalados, infraestruturas comuns e redes públicas,
-                entre outros factores.</p>
-            <p>O IMInimo irá calcular os restantes coeficientes necessários.</p>
+          <div class="help-text" id="text-5">
+              Ca - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi41.aspx" target="_blank">
+              Coeficiente de afectação</a>;
+              Cq - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi43.aspx" target="_blank">
+              Coeficiente de qualidade e conforto</a>;
+              Cl - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi42.aspx" target="_blank">
+              Coeficiente de localização</a> (Consulte o mapa dos coeficientes <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">
+              aqui</a>).
+              O IMInimo irá calcular os restantes coeficientes necessários.
           </div>
 
           <button class="smaller-button smaller-button-color-3" type="submit">Calcular</button>

@@ -22,19 +22,20 @@ section {
 p {
   font-family: "Lora", sans-serif;
   font-size: 14px;
-  color: #53595b;
+  color: white;
 }
 
 h2 {
   font-family: "Montserrat";
   margin: 0px 0;
-  padding: 0;
+  padding: 20px;
 }
 
 h4 {
   font-family: "Montserrat";
   font-weight: 100;
-  margin: 5px 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 a {
@@ -50,10 +51,11 @@ form {
 
 
 .navbar {
-  height: 100px;
+  height: 40px;
   overflow: hidden;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
+  padding-top: 10px;
 }
 
 .navbar a {
@@ -61,7 +63,7 @@ form {
   display: block;
   color: #003366;
   text-align: center;
-  padding: 14px 20px;
+  padding: 5px 20px;
   text-decoration: none;
 }
 
@@ -96,8 +98,6 @@ form {
   gap: 40px;
 }
 
-
-
 .field-container input {
   padding: 5px;
   margin-bottom: 15px;
@@ -107,6 +107,7 @@ form {
   width: 100%;
   box-sizing: border-box;
   outline: none;
+  height: 30px;
 }
 
 .field-container input:focus {
@@ -116,7 +117,7 @@ form {
 
 .box-container {
   height: 200px;
-  padding: 50px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -196,15 +197,15 @@ form {
   background-color: #FFD700;
 }
 
-
-
-
-
-
 .question-mark {
   font-family: "Segoe UI Symbol";
   margin-left: 10px;
   color: #ccc;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  height: 100%;
+  margin-bottom: 15px;
 }
 
 .question-mark:hover {
@@ -216,8 +217,13 @@ form {
   font-size: 12px;
   color: white;
   margin-top: 5px;
+  margin-bottom: 15px;
   position: relative;
   left: 0;
   top: 100%;
   width: 100%;
+}
+
+.field-container .help-text {
+  display: none;
 }

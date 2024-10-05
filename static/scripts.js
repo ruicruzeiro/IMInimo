@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Loop through each question mark
   questionMarks.forEach((icon) => {
-    icon.addEventListener('click', function() {
+    icon.addEventListener('click', function(event) {
+      event.stopPropagation();
       const targetId = this.getAttribute('text-id');
       const helpText = document.getElementById(targetId);
 
