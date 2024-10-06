@@ -156,11 +156,22 @@ form {
   align-items: start;
 }
 
+.single-box {
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+
+.single-box .box {
+  width: 50%;
+  height: auto;
+  padding: 40px;
+}
+
 .h4-hidden {
   font-family: "Montserrat";
   font-weight: 200;
 }
-
 
 .box.expanded .h4-hidden {
   opacity: 0;
@@ -191,6 +202,10 @@ form {
 
 .box .smaller-button-color-3 {
   color: #4682B4;
+}
+
+.box .smaller-button-color-4 {
+  color: #A0522D;
 }
 
 .box .smaller-button:hover {

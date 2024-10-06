@@ -1,11 +1,6 @@
 {% extends "layout.html" %}
 
 {% block main %}
-  <section>
-    <h2>Menos IMI, mais para si.</h2>
-  </section>
-
-
 
 <section>
 
@@ -36,7 +31,12 @@
           A Caderneta Predial deverá estar em formato PDF e não ser digitalizada.<br><br>
           Pode obter este documento no formato correcto no site da Autoridade Tributária.
         </h4>
-        <button class="smaller-button smaller-button-color-2" type="submit">Carregar PDF</button>
+        <button class="smaller-button smaller-button-color-2" id="upload-btn">Carregar PDF</button>
+        <input type="file" id="pdf-input" accept="application/pdf" style="display:none">
+
+
+
+
       </div>
     </div>
 
@@ -86,8 +86,8 @@
               Cq - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi43.aspx" target="_blank">
               Coeficiente de qualidade e conforto</a>;
               Cl - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi42.aspx" target="_blank">
-              Coeficiente de localização</a> (Consulte o mapa dos coeficientes <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">
-              aqui</a>).
+              Coeficiente de localização</a> (O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">
+              neste mapa</a>).
               O IMInimo irá calcular os restantes coeficientes necessários.
           </div>
 
