@@ -6,7 +6,13 @@
 
   <div class="box-container single-box">
     <div class="box" style="background-color: #A0522D; width: 50%;">
-      <h2>Conclusão</h2>
+      <h2>
+          {% if successful_calculation %}
+          Conclusão
+          {% else %}
+          Erro
+          {% endif %}
+      </h2>
       <div class="h4-hidden">{{ output_message }}
         <br><br>
         <a href="/">

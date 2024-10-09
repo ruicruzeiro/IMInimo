@@ -44,39 +44,39 @@
       <h2>Inserir manualmente</h2>
       <div class="h4-hidden">Se preferir, insira manualmente os dados da sua Caderneta Predial</div>
       <div class="form-container">
-        <form action="/compute" method="post">
+        <form action="/input" method="post">
 
           <div class="field-container">
-            <input autocomplete="off" autofocus name="concelho" placeholder="Concelho" type="text">
+            <input autocomplete="off" autofocus name="council" placeholder="Concelho" type="text">
           </div>
 
           <div class="field-container">
-            <input autocomplete="off" autofocus name="vpt_actual" placeholder="Valor Patrimonial Actual (CIMI)" type="text">
+            <input autocomplete="off" autofocus name="VPTCurrent" placeholder="Valor Patrimonial Actual (CIMI)" type="text">
             <i class="far fa-question-circle question-mark" text-id="text-1" id="questionIcon"></i>
           </div>
           <div class="help-text" id="text-1">O Valor Patrimonial Actual pode ser encontrado na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
           <div class="field-container">
-            <input autocomplete="off" autofocus name="avaliacao_A" placeholder="Área de Avaliação (A)" type="text">
+            <input autocomplete="off" autofocus name="appraisalArea" placeholder="Área de Avaliação (A)" type="text">
             <i class="far fa-question-circle question-mark" text-id="text-2"></i>
           </div>
           <div class="help-text" id="text-2">A Área de Avaliação pode ser encontrada na secção "Dados de Avaliação" da Caderneta Predial Urbana, no quadro de cálculo do Valor Patrimonial (factor "A", na terceira quadrícula).</div>
 
           <div class="field-container">
-            <input autocomplete="off" autofocus name="ano_de_inscricao_matriz" placeholder="Ano de inscrição na matriz" type="text">
+            <input autocomplete="off" autofocus name="registryYear" placeholder="Ano de inscrição na matriz" type="text">
             <i class="far fa-question-circle question-mark" text-id="text-3"></i>
           </div>
           <div class="help-text" id="text-3">O Ano de Inscrição na Matriz é o primeiro campo da secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
           <h4>Data da última avaliação<i class="far fa-question-circle question-mark" text-id="text-4"></i></h4>
           <div class="field-container">
-            <input autocomplete="off" autofocus name="data_avaliacao" placeholder="Avaliada em" type="date">
+            <input autocomplete="off" autofocus name="appraisalDate" placeholder="Avaliada em" type="date">
           </div>
           <div class="help-text" id="text-4">A data da última avaliação corresponde ao campo "Avaliada em" na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
           <h4>Coeficientes<i class="far fa-question-circle question-mark" text-id="text-5" id="questionIcon"></i></h4>
           <div class="field-container coef-container">
-            <input autocomplete="off" autofocus name="avaliacao_Ca" placeholder="Ca" type="text">
+            <input autocomplete="off" autofocus name="Ca" placeholder="Ca" type="text">
             <input autocomplete="off" autofocus name="Cq" placeholder="Cq" type="text">
             <input autocomplete="off" autofocus name="Cl" placeholder="Cl" type="text">
           </div>
@@ -92,6 +92,7 @@
           </div>
 
           <button class="smaller-button smaller-button-color-3" type="submit">Calcular</button>
+          <input type="file" id="pdf-input" accept="application/pdf" style="display:none">
         </form>
 
       </div>

@@ -13,10 +13,12 @@ def get_zone_code(text):
     district_council_parish = district_council + parish[0]
     return district_council, district_council_parish
 
+
 def get_registry_year(text):
     registry_year = regex.findall('(?<=Ano de inscrição na matriz: )(.*)(?= Valor patrimonial actual)', text)
     registry_year = int(registry_year[0])
     return registry_year
+
 
 def get_appraisal_date(text):
     appraisal_date = regex.findall('(?<=Avaliada em : )(.*)', text)
@@ -25,24 +27,12 @@ def get_appraisal_date(text):
     appraisal_date = appraisal_date.date()
     return appraisal_date
 
-def get_calculation_params(text, registry_year):
-    ext_vpt = regex.findall('Valor patrimonial actual \(CIMI\):\s*€([\d,.]+)', text)
-    VPT_current = float(ext_vpt[0].replace('.', '').replace(',', '.'))
 
-    ext_calc = regex.findall('(?<=Vc x A x Ca x Cl x Cq x Cv )(.*)(?= Vt = valor patrimonial tributário)', text)
-    ext_calc = ext_calc[0].split()
+def get_Cv(registry_year):
+    """ Get the Cv coefficient (Coeficiente de Vetustez / Age Coefficient) """
 
-    # valor de construção em 26-07-2024 (última actualização deste código)
-    Vc = 665.00 # Valor em 2022: 640; actualizado em 2023, mantido em 2024
-
-    # extrair coeficientes da CPU
-    A = float(ext_calc[4].replace('.', '').replace(',', '.'))
-    Ca = float(ext_calc[6].replace('.', '').replace(',', '.'))
-    Cl = float(ext_calc[8].replace('.', '').replace(',', '.'))
-    Cq = float(ext_calc[10].replace('.', '').replace(',', '.'))
-
-    # calcular o coeficiente de vetustez
     property_age = dt.date.today().year - registry_year
+
     if property_age < 2:
         Cv = 1.0
     elif property_age >= 2 and property_age <= 8:
@@ -60,22 +50,67 @@ def get_calculation_params(text, registry_year):
     elif property_age > 60:
         Cv = 0.4
 
-    return VPT_current, Vc, A, Ca, Cl, Cq, Cv
+    return Cv
 
 
-def compute_savings(text):
-    """ Compute possible savings based on input file """
+def get_params_upload(text, registry_year):
+    """ Get calculation parameters for the upload registry PDF option """
 
-    if 'CADERNETA PREDIAL URBANA' and 'SERVIÇO DE FINANÇAS' and 'DADOS DE AVALIAÇÃO' in text:
-        district_council, district_council_parish = get_zone_code(text)
-        registry_year = get_registry_year(text)
-        appraisal_date = get_appraisal_date(text)
-        VPT_current, Vc, A, Ca, Cl, Cq, Cv = get_calculation_params(text, registry_year)
-    else:
-        output_message = "Caderneta Predial Urbana inválida."
-        return output_message
+    ext_vpt = regex.findall('Valor patrimonial actual \(CIMI\):\s*€([\d,.]+)', text)
+    vpt_current = float(ext_vpt[0].replace('.', '').replace(',', '.'))
 
-    VPT_new = round(Vc * A * Ca * Cl * Cq * Cv, 2)
+    ext_calc = regex.findall('(?<=Vc x A x Ca x Cl x Cq x Cv )(.*)(?= Vt = valor patrimonial tributário)', text)
+    ext_calc = ext_calc[0].split()
+
+    A = float(ext_calc[4].replace('.', '').replace(',', '.'))
+    Ca = float(ext_calc[6].replace('.', '').replace(',', '.'))
+    Cl = float(ext_calc[8].replace('.', '').replace(',', '.'))
+    Cq = float(ext_calc[10].replace('.', '').replace(',', '.'))
+    Cv = get_Cv(registry_year)
+
+    return vpt_current, A, Ca, Cl, Cq, Cv
+
+
+def get_params_input(input_dict, registry_year):
+
+    vpt_current = input_dict.get("VPTcurrent")
+    A = input_dict.get("appraisalArea")
+    Ca = input_dict.get("Ca")
+    Cq = input_dict.get("Cq")
+    Cl = input_dict.get("Cl")
+    Cv = get_Cv(registry_year)
+
+    return vpt_current, A, Ca, Cl, Cq, Cv
+
+
+def compute_savings(calc_type, text, input_dict):
+    """ Compute possible savings based on uploaded file and manual input """
+
+    if calc_type == "upload":
+
+        if 'CADERNETA PREDIAL URBANA' and 'SERVIÇO DE FINANÇAS' and 'DADOS DE AVALIAÇÃO' in text:
+            district_council, district_council_parish = get_zone_code(text)
+            registry_year = get_registry_year(text)
+            appraisal_date = get_appraisal_date(text)
+            vpt_current, A, Ca, Cl, Cq, Cv = get_params_upload(text, registry_year)
+            successful_calculation = True
+        else:
+            output_message = "Caderneta Predial Urbana inválida."
+            successful_calculation = False
+            return successful_calculation, output_message
+
+    elif calc_type == "input":
+
+        council = input_dict.get("council")
+        registry_year = input_dict.get("registryYear")
+        appraisal_date = input_dict.get("appraisalDate")
+        vpt_current, A, Ca, Cl, Cq, Cv = get_params_input(input_dict, registry_year)
+        successful_calculation = True
+
+    # valor de construção em 26-07-2024 (última actualização deste código)
+    Vc = 665.00 # Valor em 2022: 640; actualizado em 2023, mantido em 2024
+
+    vpt_new = round(Vc * A * Ca * Cl * Cq * Cv, 2)
 
     if appraisal_date + relativedelta(years=3) > dt.date.today():
         output_message = (
@@ -87,15 +122,15 @@ def compute_savings(text):
             f"cálculo podem ser alterados pela Autoridade Tributária até lá."
         )
 
-    elif VPT_new > VPT_current:
+    elif vpt_new > vpt_current:
         output_message = (
             f"Não é aconselhável pedir já uma reavaliação. Uma "
             f"reavaliação pedida neste momento irá fazer subir o Valor Patrimonial "
-            f"do imóvel para {str(int(VPT_new))} €. Esta situação poderá dever-se "
+            f"do imóvel para {str(int(vpt_new))} €. Esta situação poderá dever-se "
             f"à subida de alguns dos parâmetros de cálculo pela Autoridade Tributária."
         )
 
-    elif VPT_new <= VPT_current:
+    elif vpt_new <= vpt_current:
 
         # em 2024, Gondomar e Espinho são os únicos concelhos com taxas diferentes em algumas freguesias
 
@@ -106,34 +141,34 @@ def compute_savings(text):
         else:
             council_rate = portugal[district_council]
 
-        IMI_current = int(round(VPT_current * council_rate, 0))
-        IMI_new = int(round(VPT_new * council_rate, 0))
-        IMI_savings = IMI_current - IMI_new
+        imi_current = int(round(vpt_current * council_rate, 0))
+        imi_new = int(round(vpt_new * council_rate, 0))
+        imi_savings = imi_current - imi_new
 
-        if IMI_savings >= 10:
+        if imi_savings >= 10:
 
             output_message = (
                 f"Você pode passar a pagar menos IMI! Se pedir uma "
                 f"reavaliação à Autoridade Tributária, o Valor Patrimonial do "
-                f"imóvel passará a ser de {str(int(VPT_new))} € e o valor do IMI "
-                f"anual a pagar de {str(IMI_new)} €. Com a taxa de "
+                f"imóvel passará a ser de {str(int(vpt_new))} € e o valor do IMI "
+                f"anual a pagar de {str(imi_new)} €. Com a taxa de "
                 f"{str(dt.date.today().year)}, a poupança anual de IMI neste "
-                f"imóvel é de {str(int(round(IMI_savings, 0)))} €!"
+                f"imóvel é de {str(int(round(imi_savings, 0)))} €!"
             )
 
         # não há poupança ou esta é inferior a 10 €.
 
         else:
 
-            IMI_savings_low = "{:.2f}".format(round(VPT_current \
-                * council_rate, 2) - round(VPT_new * council_rate, 2))
+            imi_savings_low = "{:.2f}".format(round(vpt_current \
+                * council_rate, 2) - round(vpt_new * council_rate, 2))
 
             output_message = (
                 f"Pode pagar menos, mas pode não compensar. Uma "
                 f"reavaliação irá resultar numa poupança anual no IMI do imóvel "
-                f"de {IMI_savings_low} €. Recordamos que as reavaliações só podem "
+                f"de {imi_savings_low} €. Recordamos que as reavaliações só podem "
                 f"ser pedidas de 3 em 3 anos, pelo que deve analisar se esta é a "
                 f"melhor opção para si. Consulte o seu Serviço de Finanças."
             )
 
-    return output_message
+    return successful_calculation, output_message

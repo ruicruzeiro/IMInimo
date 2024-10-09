@@ -157,13 +157,15 @@ form {
 }
 
 .single-box {
+  width: 1200px;
   justify-content: center;
   align-items: center;
   height: auto;
+  flex-wrap: nowrap;
 }
 
 .single-box .box {
-  width: 50%;
+  width: 100%;
   height: auto;
   padding: 40px;
 }

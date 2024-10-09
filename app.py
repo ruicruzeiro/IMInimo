@@ -19,13 +19,14 @@ def upload():
 
     if "pdf" not in request.files:
         output_message = "Error: invalid file type, expected PDF."
+        successful_calculation = False
         return render_template("upload.html", output_message=output_message), 400
-
 
     file = request.files["pdf"]
 
     if file.filename == "":
         output_message = "Error: no selected file."
+        successful_calculation = False
         return render_template("upload.html", output_message=output_message), 400
 
 
@@ -33,17 +34,23 @@ def upload():
         reader = PdfReader(io.BytesIO(file.read()))
         text = [reader.pages[page].extract_text() for page in range(len(reader.pages))]
         text = " ".join(text).replace("\n", "")
-        output_message = compute_savings(text)
-        return render_template("upload.html", output_message=output_message), 400
+        successful_calculation, output_message = compute_savings("upload", text, {})
+        return render_template(
+            "upload.html",
+            successful_calculation=successful_calculation,
+            output_message=output_message), 400
 
 
-
-
-
-@app.route("/input")
+@app.route("/input", methods=["GET", "POST"])
 def input():
     """Page for manual input of CPU data"""
-    return render_template("input.html")
+
+    successful_calculation, output_message = compute_savings("input", "", request.form)
+
+    return render_template(
+        "input.html",
+        successful_calculation=successful_calculation,
+        output_message=output_message), 400
 
 
 if __name__ == "__main__":
