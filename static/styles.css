@@ -94,8 +94,8 @@ form {
 }
 
 .coef-container {
-  width: 300px;
-  gap: 40px;
+  width: 325px;
+  gap: 25px;
 }
 
 .field-container input {
@@ -184,7 +184,7 @@ form {
 .box .smaller-button {
   width: 40%;
   margin-top: 20px;
-  color: #f2f2f2;
+  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 25px;

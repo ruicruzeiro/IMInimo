@@ -33,10 +33,6 @@
         </h4>
         <button class="smaller-button smaller-button-color-2" id="upload-btn">Carregar PDF</button>
         <input type="file" id="pdf-input" accept="application/pdf" style="display:none">
-
-
-
-
       </div>
     </div>
 
@@ -45,10 +41,6 @@
       <div class="h4-hidden">Se preferir, insira manualmente os dados da sua Caderneta Predial</div>
       <div class="form-container">
         <form action="/input" method="post">
-
-          <div class="field-container">
-            <input autocomplete="off" autofocus name="council" placeholder="Concelho" type="text">
-          </div>
 
           <div class="field-container">
             <input autocomplete="off" autofocus name="VPTCurrent" placeholder="Valor Patrimonial Actual (CIMI)" type="text">
@@ -82,14 +74,25 @@
           </div>
           <div class="help-text" id="text-5">
               Ca - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi41.aspx" target="_blank">
-              Coeficiente de afectação</a>;
+              Afectação</a>;
               Cq - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi43.aspx" target="_blank">
-              Coeficiente de qualidade e conforto</a>;
+              Qualidade e conforto</a>;
               Cl - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi42.aspx" target="_blank">
-              Coeficiente de localização</a> (O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">
+              Localização</a> (O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">
               neste mapa</a>).
-              O IMInimo irá calcular os restantes coeficientes necessários.
           </div>
+
+          <h4>Códigos de localização<i class="far fa-question-circle question-mark" text-id="text-6" id="questionIcon"></i></h4>
+          <div class="field-container coef-container">
+            <input autocomplete="off" autofocus name="propertyDistrict" placeholder="Distrito" type="text">
+            <input autocomplete="off" autofocus name="propertyCouncil" placeholder="Concelho" type="text">
+            <input autocomplete="off" autofocus name="propertyParish" placeholder="Freguesia" type="text">
+          </div>
+          <div class="help-text" id="text-6">
+              Os códigos de localização têm dois dígitos e encontram-se na primeira secção da
+              Caderneta Predial, "Identificação do Prédio".
+          </div>
+
 
           <button class="smaller-button smaller-button-color-3" type="submit">Calcular</button>
           <input type="file" id="pdf-input" accept="application/pdf" style="display:none">

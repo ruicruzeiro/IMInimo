@@ -101,7 +101,8 @@ def compute_savings(calc_type, text, input_dict):
 
     elif calc_type == "input":
 
-        council = input_dict.get("council")
+        district_council = input_dict.get("propertyDistrict") + input_dict.get("propertyCouncil")
+        district_council_parish = district_council + input_dict.get("propertyParish")
         registry_year = input_dict.get("registryYear")
         appraisal_date = input_dict.get("appraisalDate")
         vpt_current, A, Ca, Cl, Cq, Cv = get_params_input(input_dict, registry_year)
