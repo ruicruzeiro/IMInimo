@@ -1,7 +1,8 @@
 import io
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, request, jsonify
 from PyPDF2 import PdfReader
 from logic import compute_savings
+from taxas_imi import portugal, gondomar, espinho
 
 
 app = Flask(__name__)
@@ -51,6 +52,12 @@ def input():
         "input.html",
         successful_calculation=successful_calculation,
         output_message=output_message), 400
+
+
+zone_codes = {**portugal, **gondomar, **espinho}
+@app.route('/zone-codes')
+def get_zone_codes():
+    return jsonify(list(zone_codes.keys()))
 
 
 if __name__ == "__main__":

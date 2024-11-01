@@ -23,8 +23,7 @@ def get_registry_year(text):
 def get_appraisal_date(text):
     appraisal_date = regex.findall('(?<=Avaliada em : )(.*)', text)
     appraisal_date = appraisal_date[0].split()[0]
-    appraisal_date = dt.datetime.strptime(appraisal_date, '%Y/%m/%d')
-    appraisal_date = appraisal_date.date()
+    appraisal_date = dt.datetime.strptime(appraisal_date, '%Y/%m/%d').date()
     return appraisal_date
 
 
@@ -73,11 +72,11 @@ def get_params_upload(text, registry_year):
 
 def get_params_input(input_dict, registry_year):
 
-    vpt_current = input_dict.get("VPTcurrent")
-    A = input_dict.get("appraisalArea")
-    Ca = input_dict.get("Ca")
-    Cq = input_dict.get("Cq")
-    Cl = input_dict.get("Cl")
+    vpt_current = input_dict.get("VPTCurrent").replace(",", ".")
+    A = float(input_dict.get("appraisalArea").replace(",", "."))
+    Ca = float(input_dict.get("Ca").replace(",", "."))
+    Cq = float(input_dict.get("Cq").replace(",", "."))
+    Cl = float(input_dict.get("Cl").replace(",", "."))
     Cv = get_Cv(registry_year)
 
     return vpt_current, A, Ca, Cl, Cq, Cv
@@ -101,10 +100,12 @@ def compute_savings(calc_type, text, input_dict):
 
     elif calc_type == "input":
 
+        input_dict = input_dict.to_dict()
         district_council = input_dict.get("propertyDistrict") + input_dict.get("propertyCouncil")
         district_council_parish = district_council + input_dict.get("propertyParish")
-        registry_year = input_dict.get("registryYear")
+        registry_year = int(input_dict.get("registryYear"))
         appraisal_date = input_dict.get("appraisalDate")
+        appraisal_date = dt.datetime.strptime(appraisal_date, '%Y-%m-%d').date()
         vpt_current, A, Ca, Cl, Cq, Cv = get_params_input(input_dict, registry_year)
         successful_calculation = True
 
