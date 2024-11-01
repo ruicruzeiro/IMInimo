@@ -60,3 +60,21 @@ body {
   visibility: hidden;
   transition: opacity 0.3s ease;
 }
+
+.input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.part {
+  border: none;
+  outline: none;
+  width: 30px;
+}
+
+.separator {
+  padding: 0 5px;
+}

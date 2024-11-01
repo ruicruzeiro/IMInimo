@@ -1,4 +1,6 @@
-// Box behaviour
+
+// Box behaviour ---------------------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', function() {
 
   const boxes = document.querySelectorAll('.box');
@@ -21,7 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Help text popup behaviour
+
+// Help text popup behaviour ---------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', function() {
 
   const questionMarks = document.querySelectorAll('.question-mark');
@@ -51,7 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Upload button behaviour
+
+// Upload button behaviour -----------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', function() {
 
     const uploadBtn = document.getElementById('upload-btn');
@@ -74,9 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
               body: formData
             })
 
-            .then(response => response.text())  // Expect text (HTML) instead of redirect
+            .then(response => response.text())
             .then(html => {
-                document.body.innerHTML = html;  // Replace the entire body with the new response
+                document.body.innerHTML = html;
             })
 
             .catch(error => {
@@ -87,35 +93,35 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Format digits and decimal separator on Valor Patrimonial Actual and Área
+
+// Format digits and decimal separator on Valor Patrimonial Actual and Área ----
+
 function allowOnlyDecimalNums(event) {
   const charCode = event.charCode ? event.charCode : event.keyCode;
   const input = event.target;
 
-  // Allow digits (0-9)
   if (charCode >= 48 && charCode <= 57) {
       return true;
   }
 
-  // Allow comma if not already present
   if (charCode === 44 && !input.value.includes(',')) {
       return true;
   }
 
-  // Convert dot (.) to comma (,) if dot is pressed
   if (charCode === 46 && !input.value.includes(',')) {
-      input.value += ','; // Add comma to the input value
-      event.preventDefault(); // Prevent the dot from being entered
+      input.value += ',';
+      event.preventDefault();
       return false;
   }
 
-  // Prevent any other characters
   event.preventDefault();
   return false;
 }
 
 
-// Format digits on the district/county/parish input and add leading zero if user inputs only one digit
+
+// Format digits on the zone input + add leading zero if only one digit --------
+
 function allowOnlyDigits(event) {
   const charCode = event.charCode ? event.charCode : event.keyCode;
   if (charCode < 48 || charCode > 57) {
@@ -132,7 +138,11 @@ function addLeadingZero(inputField) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('input[name="propertyDistrict"], input[name="propertyCouncil"], input[name="propertyParish"]').forEach(input => {
+  document.querySelectorAll(
+    'input[name="propertyDistrict"], ' +
+    'input[name="propertyCouncil"], ' +
+    'input[name="propertyParish"]'
+  ).forEach(input => {
       input.addEventListener('blur', function() {
           addLeadingZero(this);
       });
@@ -140,7 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Format year field
+
+// Format year field -----------------------------------------------------------
+
 function validateYear(input) {
 
   input.value = input.value.replace(/\D/g, '').slice(0, 4);
@@ -154,89 +166,48 @@ function validateYear(input) {
 }
 
 
-// Verification for valid district/council/parish codes
-let validZoneCodes = [];
 
-// Fetch valid zone codes
-fetch('/zone-codes')
-    .then(response => response.json())
-    .then(data => {
-        validZoneCodes = data;
-    })
-    .catch(error => console.error('Error fetching zone codes:', error));
+// Verification for valid zone codes -------------------------------------------
 
-// Validate combined code
-function validateCombinedCode(district, council, parish) {
-    const fullCode = district + council + parish;
-    return validZoneCodes.includes(fullCode);
-}
-
-// Validate individual input field
-function validateInputField(code) {
-    if (validZoneCodes.length === 0) return false; // Check if validZoneCodes is empty
-    return code.length === 2 && validZoneCodes.some(zone => zone.startsWith(code));
-}
-
-// Ensure the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Add submit event listener to the form
-    document.getElementById('input_form').addEventListener('submit', function(event) {
-        const districtCode = document.getElementById('propertyDistrict');
-        const councilCode = document.getElementById('propertyCouncil');
-        const parishCode = document.getElementById('propertyParish');
 
-        // Check if valid zone codes are loaded
-        if (validZoneCodes.length === 0) {
-            event.preventDefault(); // Prevent form submission
-            alert("Zone codes are not loaded yet. Please try again later.");
-            return; // Exit early
-        }
+  const form = document.getElementById('input-form');
+  const districtInput = document.getElementsByName('propertyDistrict')[0];
+  const councilInput = document.getElementsByName('propertyCouncil')[0];
+  const parishInput = document.getElementsByName('propertyParish')[0];
 
-        // Clear previous custom validity messages
-        districtCode.setCustomValidity("");
-        councilCode.setCustomValidity("");
-        parishCode.setCustomValidity("");
+  let zoneCodes = [];
 
-        // Validate each input field and ensure they are filled
-        let isValid = true;
+  fetch('/zone-codes')
+      .then(response => response.json())
+      .then(data => {
+          zoneCodes = data;
+      })
+      .catch(error => {
+          console.error('Error fetching zone codes:', error);
+          alert('Error loading zone codes. Please refresh the page.');
+      });
 
-        // Validate district code
-        if (!districtCode.value || !validateInputField(districtCode.value)) {
-            event.preventDefault(); // Prevent form submission
-            districtCode.setCustomValidity("Código de distrito inválido.");
-            isValid = false; // Track that validation failed
-        }
+  form.addEventListener('submit', function(event) {
+      event.preventDefault();
 
-        // Validate council code
-        if (!councilCode.value || !validateInputField(councilCode.value)) {
-            event.preventDefault(); // Prevent form submission
-            councilCode.setCustomValidity("Código de concelho inválido.");
-            isValid = false; // Track that validation failed
-        }
+      const district = districtInput.value;
+      const council = councilInput.value;
+      const parish = parishInput.value;
+      const fourDigitCode = district + council;
+      const sixDigitCode = district + council + parish;
 
-        // Validate parish code
-        if (!parishCode.value || !validateInputField(parishCode.value)) {
-            event.preventDefault(); // Prevent form submission
-            parishCode.setCustomValidity("Código de freguesia inválido.");
-            isValid = false; // Track that validation failed
-        }
+      if (zoneCodes.includes(fourDigitCode) || zoneCodes.includes(sixDigitCode)) {
+          form.submit();
+      } else {
+          parishInput.setCustomValidity("Código inválido. Verifique os três campos de distrito, concelho e freguesia.");
+          parishInput.reportValidity();
+      }
+  });
 
-        // Validate combined codes
-        if (!validateCombinedCode(districtCode.value, councilCode.value, parishCode.value)) {
-            event.preventDefault(); // Prevent form submission
-            parishCode.setCustomValidity("Códigos inválidos.");
-            isValid = false; // Track that validation failed
-        }
-
-        // Report validity for each input
-        districtCode.reportValidity();
-        councilCode.reportValidity();
-        parishCode.reportValidity();
-
-        // Check if all fields are valid
-        if (!isValid) {
-            event.preventDefault(); // Prevent form submission
-            return; // Exit early
-        }
-    });
+  [districtInput, councilInput, parishInput].forEach(input => {
+      input.addEventListener('input', function() {
+          parishInput.setCustomValidity("");
+      });
+  });
 });
