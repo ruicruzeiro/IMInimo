@@ -72,7 +72,7 @@ def get_params_upload(text, registry_year):
 
 def get_params_input(input_dict, registry_year):
 
-    vpt_current = input_dict.get("VPTCurrent").replace(",", ".")
+    vpt_current = float(input_dict.get("VPTCurrent").replace(",", "."))
     A = float(input_dict.get("appraisalArea").replace(",", "."))
     Ca = float(input_dict.get("Ca").replace(",", "."))
     Cq = float(input_dict.get("Cq").replace(",", "."))
@@ -87,16 +87,11 @@ def compute_savings(calc_type, text, input_dict):
 
     if calc_type == "upload":
 
-        if 'CADERNETA PREDIAL URBANA' and 'SERVIÇO DE FINANÇAS' and 'DADOS DE AVALIAÇÃO' in text:
-            district_council, district_council_parish = get_zone_code(text)
-            registry_year = get_registry_year(text)
-            appraisal_date = get_appraisal_date(text)
-            vpt_current, A, Ca, Cl, Cq, Cv = get_params_upload(text, registry_year)
-            successful_calculation = True
-        else:
-            output_message = "Caderneta Predial Urbana inválida."
-            successful_calculation = False
-            return successful_calculation, output_message
+        district_council, district_council_parish = get_zone_code(text)
+        registry_year = get_registry_year(text)
+        appraisal_date = get_appraisal_date(text)
+        vpt_current, A, Ca, Cl, Cq, Cv = get_params_upload(text, registry_year)
+        successful_calculation = True
 
     elif calc_type == "input":
 

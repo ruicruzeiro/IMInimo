@@ -47,6 +47,10 @@ form {
   flex-direction: column;
 }
 
+a:link, a:visited {
+  color: #00BFFF;
+  text-decoration: underline;
+}
 
 
 

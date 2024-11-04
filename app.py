@@ -1,4 +1,5 @@
 import io
+import regex
 from flask import Flask, render_template, request, jsonify
 from PyPDF2 import PdfReader
 from logic import compute_savings
@@ -19,23 +20,35 @@ def upload():
     """ Page for loading of CPU document (PDF file) """
 
     if "pdf" not in request.files:
-        output_message = "Error: invalid file type, expected PDF."
+        output_message = "Tipo de ficheiro inválido. O IMInimo só aceita PDF."
         successful_calculation = False
         return render_template("upload.html", output_message=output_message), 400
 
     file = request.files["pdf"]
 
     if file.filename == "":
-        output_message = "Error: no selected file."
+        output_message = "Ficheiro não seleccionado."
         successful_calculation = False
         return render_template("upload.html", output_message=output_message), 400
-
 
     if file and file.filename.endswith(".pdf"):
         reader = PdfReader(io.BytesIO(file.read()))
         text = [reader.pages[page].extract_text() for page in range(len(reader.pages))]
         text = " ".join(text).replace("\n", "")
-        successful_calculation, output_message = compute_savings("upload", text, {})
+        if 'CADERNETA PREDIAL URBANA' and 'SERVIÇO DE FINANÇAS' and 'DADOS DE AVALIAÇÃO' in text:
+            successful_calculation, output_message = compute_savings("upload", text, {})
+        else:
+            return render_template(
+                "upload.html",
+                successful_calculation=False,
+                output_message="Caderneta Predial Urbana inválida."), 400
+
+        ext_calc = regex.findall('(?<=Vc x A x Ca x Cl x Cq x Cv )(.*)(?= Vt = valor patrimonial tributário)', text)
+        ext_calc = ext_calc[0].split()
+        Cl = float(ext_calc[8].replace('.', '').replace(',', '.'))
+        Cl = f"{Cl:.2f}"
+        return jsonify({"Cl": Cl})
+
         return render_template(
             "upload.html",
             successful_calculation=successful_calculation,

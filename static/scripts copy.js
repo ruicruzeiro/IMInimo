@@ -59,81 +59,38 @@ document.addEventListener('DOMContentLoaded', function() {
 // Upload button behaviour -----------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
-  const uploadBtn = document.getElementById('upload-btn');
-  const pdfInput = document.getElementById('pdf-input');
-  const box = document.querySelector('.box[style*="background-color: #483D8B"]'); // Select "Carregar Caderneta Predial" box
-  const zoneCoefInput = document.createElement('input'); // Input for zone_coef value
-  const confirmBtn = document.createElement('button'); // Confirm button
 
-  const instructionH4 = document.createElement('h4');
-  instructionH4.style.display = 'none'; // Initially hidden
-  instructionH4.innerHTML = '<br><br>O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">neste mapa</a> e clique em Confirmar.';
+    const uploadBtn = document.getElementById('upload-btn');
+    const pdfInput = document.getElementById('pdf-input');
 
-  // Set up the new input field for zone_coef
-  zoneCoefInput.setAttribute('type', 'text');
-  zoneCoefInput.setAttribute('id', 'Cl');
-  zoneCoefInput.setAttribute('placeholder', 'Coeficiente de Localização');
-  zoneCoefInput.style.padding = '5px';
-  zoneCoefInput.style.marginBottom = '15px';
-  zoneCoefInput.style.border = '1px solid #ccc';
-  zoneCoefInput.style.borderRadius = '4px';
-  zoneCoefInput.style.fontSize = '16px';
-  zoneCoefInput.style.width = '100px';
-  zoneCoefInput.style.boxSizing = 'border-box';
-  zoneCoefInput.style.outline = 'none';
-  zoneCoefInput.style.height = '30px';
-  zoneCoefInput.style.marginTop = '20px';
-  zoneCoefInput.style.display = 'none'; // Hidden initially
+    uploadBtn.addEventListener('click', function() {
+        pdfInput.click();
+    });
 
-  // Set up the confirm button
-  confirmBtn.textContent = 'Confirmar';
-  confirmBtn.className = 'smaller-button smaller-button-color-2';
-  confirmBtn.style.display = 'none'; // Hidden initially
+    pdfInput.addEventListener('change', function(event) {
 
-  // Insert the new elements into the form container
-  const formContainer = box.querySelector('.form-container');
-  formContainer.appendChild(instructionH4);
-  formContainer.appendChild(zoneCoefInput);
-  formContainer.appendChild(confirmBtn);
+        const file = event.target.files[0];
 
-  uploadBtn.addEventListener('click', function() {
-      pdfInput.click();
-  });
+        if (file) {
+            const formData = new FormData();
+            formData.append('pdf', file);
 
-  pdfInput.addEventListener('change', function(event) {
-      const file = event.target.files[0];
+            fetch('/upload', {
+              method: 'POST',
+              body: formData
+            })
 
-      if (file) {
-          const formData = new FormData();
-          formData.append('pdf', file);
+            .then(response => response.text())
+            .then(html => {
+                document.body.innerHTML = html;
+            })
 
-          fetch('/upload', {
-            method: 'POST',
-            body: formData
-          })
-          .then(response => response.json())
-          .then(data => {
-              const zoneCoef = data.Cl; // Extracted zone_coef value from server
-              zoneCoefInput.value = zoneCoef; // Set input value
-              zoneCoefInput.style.display = 'block'; // Show the input
-              confirmBtn.style.display = 'block'; // Show the confirm button
-              instructionH4.style.display = 'block';
-
-              box.classList.add('expanded'); // Expand the box
-          })
-          .catch(error => {
-            console.error('Error uploading file:', error);
-        });
-      }
-  });
-
-  // Add event listener for confirm button
-  confirmBtn.addEventListener('click', function() {
-      alert(`Zone Coefficient confirmed: ${zoneCoefInput.value}`);
-      // Additional logic on confirmation can go here
-  });
+            .catch(error => {
+              console.error('Error uploading file:', error);
+          });
+        }
+    });
 });
-
 
 
 

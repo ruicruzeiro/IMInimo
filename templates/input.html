@@ -3,48 +3,24 @@
 {% block main %}
 
 <section>
-  <form action="/compute" method="post" class="form-container">
-    <h4>Localização</h4>
-      <div class="field-container">
-        <input autocomplete="off" autofocus name="concelho" placeholder="Concelho" type="text">
-        <i class="far fa-question-circle question-mark"></i>
-      </div>
-    <h4>Valor Patrimonial Actual</h4>
-      <div class="field-container">
-        <input autocomplete="off" autofocus name="vpt_actual" placeholder="Valor Patrimonial Actual (CIMI)" type="text">
-        <i class="far fa-question-circle question-mark"></i>
-      </div>
-    <h4>Área</h4>
-      <div class="field-container">
-        <input autocomplete="off" autofocus name="avaliacao_A" placeholder="Área de Avaliação (A)" type="text">
-        <i class="far fa-question-circle question-mark"></i>
-      </div>
-    <h4>Coeficientes</h4>
-      <div class="field-container">
-        <input autocomplete="off" autofocus name="avaliacao_Ca" placeholder="Coeficiente de Afectação (Ca)" type="text">
-        <i class="far fa-question-circle question-mark"></i>
-      </div>
-      <div class="field-container">
-        <input autocomplete="off" autofocus name="Cl" placeholder="Coeficiente de Localização (Cl)" type="text">
-        <i class="far fa-question-circle question-mark"></i>
-      </div>
-      <div class="field-container">
-        <input autocomplete="off" autofocus name="Cq" placeholder="Coeficiente de Qualidade e Conforto (Cq)" type="text">
-        <i class="far fa-question-circle question-mark"></i>
-      </div>
-    <h4>Datas</h4>
-      <div class="field-container">
-        <input autocomplete="off" autofocus name="ano_de_inscricao_matriz" placeholder="Ano de inscrição na matriz" type="text">
-        <i class="far fa-question-circle question-mark"></i>
-      </div>
-      <div class="field-container">
-        <input autocomplete="off" autofocus name="data_avaliacao" placeholder="Avaliada em" type="date">
-        <i class="far fa-question-circle question-mark"></i>
-      </div>
 
-    <button class="btn btn-primary" type="submit">Calcular</button>
-</form>
-
+  <div class="box-container single-box">
+    <div class="box" style="background-color: #A0522D; width: 50%;">
+      <h2>
+          {% if successful_calculation %}
+          Resultado
+          {% else %}
+          Erro
+          {% endif %}
+      </h2>
+      <div class="h4-hidden">{{ output_message }}
+        <br><br>
+        <a href="/">
+          <button class="smaller-button smaller-button-color-4" style="width: 20%;">Voltar</button>
+        </a>
+      </div>
+    </div>
+  </div>
 
 </section>
 
