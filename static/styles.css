@@ -273,3 +273,107 @@ input[type="number"]::-webkit-inner-spin-button {
 .field-container .help-text {
   display: none;
 }
+
+
+
+/* For screens smaller than 768px (tablets and phones) */
+@media (max-width: 768px) {
+
+  .box-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    height: auto;
+    padding: 10px;
+  }
+
+  .box {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+
+  .box h2 {
+    font-size: 1.5em;
+  }
+
+  .single-box .box {
+    width: 90%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .form-container {
+    height: auto;
+  }
+
+  .field-container {
+    height: auto;
+  }
+
+  .smaller-button {
+    width: 100%;
+    font-size: 1em;
+  }
+
+  .field-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .form-container h4 {
+    font-size: 1em;
+    padding: 10px;
+  }
+
+  .form-container input {
+    font-size: 1em;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-left a, .navbar-right {
+    font-size: 1em;
+    padding: 10px;
+  }
+
+  .h4-hidden {
+    font-size: 1em;
+    padding: 5px;
+  }
+
+  .smaller-button {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+}
+
+img, .fa {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .field-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  input, button {
+    width: 100%;
+    font-size: 1em;
+    padding: 10px;
+  }
+
+  .help-text {
+    font-size: 0.85em;
+    padding: 5px;
+  }
+}
