@@ -81,6 +81,10 @@ def get_params_input(input_dict, registry_year):
     return vpt_current, A, Ca, Cl, Cq, Cv
 
 
+def currency_format(value):
+    return f"{int(value):,}".replace(",", "\u2024") + "\u00A0€"
+
+
 def compute_savings(calc_type, text, input_dict, validated_zone_coef):
     """ Compute possible savings based on uploaded file and manual input """
 
@@ -110,6 +114,7 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
     vpt_new = round(Vc * A * Ca * Cl * Cq * Cv, 2)
 
     if appraisal_date + relativedelta(years=3) > dt.date.today():
+
         output_message = (
             f"Ainda não é possível pedir uma reavaliação.<br><br>A última "
             f"reavaliação deste imóvel foi feita em {str(appraisal_date)}. A "
@@ -120,10 +125,11 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
         )
 
     elif vpt_new > vpt_current:
+
         output_message = (
             f"Não é aconselhável pedir já uma reavaliação.<br><br>Uma "
             f"reavaliação pedida neste momento irá fazer subir o Valor Patrimonial "
-            f"do imóvel para {str(int(vpt_new))} €. Esta situação poderá dever-se "
+            f"do imóvel para {currency_format(vpt_new)}. Esta situação poderá dever-se "
             f"à subida de alguns dos parâmetros de cálculo pela Autoridade Tributária."
         )
 
@@ -138,8 +144,8 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
         else:
             council_rate = portugal[district_council]
 
-        imi_current = int(round(vpt_current * council_rate, 0))
-        imi_new = int(round(vpt_new * council_rate, 0))
+        imi_current = round(vpt_current * council_rate, 0)
+        imi_new = round(vpt_new * council_rate, 0)
         imi_savings = imi_current - imi_new
 
         if imi_savings >= 10:
@@ -147,10 +153,10 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
             output_message = (
                 f"Você pode passar a pagar menos IMI!<br><br>Se pedir uma "
                 f"reavaliação à Autoridade Tributária, o Valor Patrimonial do "
-                f"imóvel passará a ser de {str(int(vpt_new))} € e o valor do IMI "
-                f"anual a pagar de {str(imi_new)} €.<br><br>Com a taxa de "
-                f"{str(dt.date.today().year)}, a redução do IMI anual neste "
-                f"imóvel é de {str(int(round(imi_savings, 0)))} €!"
+                f"imóvel passará a ser de {currency_format(vpt_new)} e o valor "
+                f"do IMI anual a pagar de {currency_format(imi_new)}.<br><br>Com "
+                f"a taxa de {str(dt.date.today().year)}, a redução do IMI anual "
+                f"neste imóvel é de {currency_format(imi_savings)}!"
             )
 
         # não há poupança ou esta é inferior a 10 €.
