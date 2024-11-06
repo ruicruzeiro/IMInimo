@@ -1,10 +1,11 @@
 body {
   margin: 10px;
   padding: 0;
-  height: 100vh;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
   background-color: #f4f4f4;
+  overflow-y: auto;
 }
 
 main {
@@ -173,11 +174,13 @@ input[type="number"]::-webkit-inner-spin-button {
 .box.expanded {
   transform: translateY(0);
   height: auto;
+  overflow-y: auto;
+  max-height: 90vh;
 }
 
 .box.expanded .form-container {
   opacity: 1;
-  max-height: 800px;
+  max-height: none;
   align-items: start;
 }
 
@@ -360,14 +363,9 @@ img, .fa {
     padding: 8px;
   }
 
-  .navbar-left a {
-    font-size: 0.8em;
-    padding: 5px;
-  }
-
-  .navbar-right {
+  .navbar-left a, .navbar-right {
     font-size: 1em;
-    padding: 5px;
+    padding: 10px;
   }
 
   .h4-hidden {

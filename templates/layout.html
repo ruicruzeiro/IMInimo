@@ -24,8 +24,9 @@
 
   <div class="navbar">
     <div class="navbar-left">
-      <a href="/">IMInimo</a>
-      <a href="{{ url_for('about') }}">Sobre</a>
+      <a href="{% if current_page == 'index' %}{{ url_for('about') }}{% else %}{{ url_for('index') }}{% endif %}">
+        IMInimo
+      </a>
     </div>
     <div class="navbar-right">
       Menos IMI, mais para si.

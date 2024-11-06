@@ -13,7 +13,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     """ Homepage/Short app presentation to the user """
-    return render_template("index.html")
+    return render_template("index.html", current_page="index")
 
 
 @app.route("/validate-pdf", methods=["POST"])
@@ -91,7 +91,7 @@ def get_zone_codes():
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template("about.html", current_page="about")
 
 
 if __name__ == "__main__":
