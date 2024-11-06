@@ -6,19 +6,26 @@ document.addEventListener('DOMContentLoaded', function() {
   const boxes = document.querySelectorAll('.box');
 
   boxes.forEach(box => {
-      const content = box.querySelector('.form-container');
-      box.addEventListener('click', function() {
-          boxes.forEach(b => {
-              if (b !== box) {
-                  b.classList.remove('expanded');
-              }
-          });
-          box.classList.toggle('expanded');
-      });
 
+    if (box.classList.contains('single-box')) {
+      return; // Skip this box if it's also a single-box
+    }
+
+    const content = box.querySelector('.form-container');
+    box.addEventListener('click', function() {
+        boxes.forEach(b => {
+            if (b !== box) {
+                b.classList.remove('expanded');
+            }
+        });
+        box.classList.toggle('expanded');
+    });
+
+    if (content) {
       content.addEventListener('click', function(event) {
           event.stopPropagation();
-    });
+      });
+    }
   });
 });
 
@@ -59,103 +66,108 @@ document.addEventListener('DOMContentLoaded', function() {
 // Upload button behaviour -----------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
-  const uploadBtn = document.getElementById('upload-btn');
-  const pdfInput = document.getElementById('pdf-input');
-  const box = document.querySelector('.box[style*="background-color: #483D8B"]');
-  const zoneCoefInput = document.createElement('input');
-  const confirmBtn = document.createElement('button');
+  // Only run if the current page is index.html or the index route
+  if (window.location.pathname === '/index' || window.location.pathname === '/index.html' || window.location.pathname === '/') {
 
-  const instructionH4 = document.createElement('h4');
-  instructionH4.style.display = 'none';
-  instructionH4.innerHTML = '<br><br>O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">neste mapa</a> e clique em Confirmar.';
+    const uploadBtn = document.getElementById('upload-btn');
+    const pdfInput = document.getElementById('pdf-input');
+    const box = document.querySelector('.box[style*="background-color: #483D8B"]');
+    const zoneCoefInput = document.createElement('input');
+    const confirmBtn = document.createElement('button');
 
-  // Set up the new input field for zone_coef
-  zoneCoefInput.setAttribute('type', 'text');
-  zoneCoefInput.setAttribute('id', 'Cl');
-  zoneCoefInput.setAttribute('placeholder', 'Coeficiente de Localização');
-  zoneCoefInput.style.padding = '5px';
-  zoneCoefInput.style.marginBottom = '15px';
-  zoneCoefInput.style.border = '1px solid #ccc';
-  zoneCoefInput.style.borderRadius = '4px';
-  zoneCoefInput.style.fontSize = '16px';
-  zoneCoefInput.style.width = '100px';
-  zoneCoefInput.style.boxSizing = 'border-box';
-  zoneCoefInput.style.outline = 'none';
-  zoneCoefInput.style.height = '30px';
-  zoneCoefInput.style.marginTop = '20px';
-  zoneCoefInput.style.display = 'none';
+    const instructionH4 = document.createElement('h4');
+    instructionH4.style.display = 'none';
+    instructionH4.innerHTML = '<br><br>O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">neste mapa</a> e clique em Confirmar.';
 
-  // Set up the confirm button
-  confirmBtn.textContent = 'Confirmar';
-  confirmBtn.className = 'smaller-button smaller-button-color-2';
-  confirmBtn.style.display = 'none';
+    // Set up the new input field for zone_coef
+    zoneCoefInput.setAttribute('type', 'text');
+    zoneCoefInput.setAttribute('id', 'Cl');
+    zoneCoefInput.setAttribute('placeholder', 'Coeficiente de Localização');
+    zoneCoefInput.style.padding = '5px';
+    zoneCoefInput.style.marginBottom = '15px';
+    zoneCoefInput.style.border = '1px solid #ccc';
+    zoneCoefInput.style.borderRadius = '4px';
+    zoneCoefInput.style.fontSize = '16px';
+    zoneCoefInput.style.width = '100px';
+    zoneCoefInput.style.boxSizing = 'border-box';
+    zoneCoefInput.style.outline = 'none';
+    zoneCoefInput.style.height = '30px';
+    zoneCoefInput.style.marginTop = '20px';
+    zoneCoefInput.style.display = 'none';
 
-  // Insert the new elements into the form container
-  const formContainer = box.querySelector('.form-container');
-  formContainer.appendChild(instructionH4);
-  formContainer.appendChild(zoneCoefInput);
-  formContainer.appendChild(confirmBtn);
+    // Set up the confirm button
+    confirmBtn.textContent = 'Confirmar';
+    confirmBtn.className = 'smaller-button smaller-button-color-2';
+    confirmBtn.style.display = 'none';
 
-  uploadBtn.addEventListener('click', function() {
-      pdfInput.click();
-  });
+    // Insert the new elements into the form container
+    const formContainer = box.querySelector('.form-container');
+    formContainer.appendChild(instructionH4);
+    formContainer.appendChild(zoneCoefInput);
+    formContainer.appendChild(confirmBtn);
 
-  let textInput;
+    uploadBtn.addEventListener('click', function() {
+        pdfInput.click();
+    });
 
-  pdfInput.addEventListener('change', function(event) {
-    const file = event.target.files[0];
+    let textInput;
 
-    if (file) {
-        const formData = new FormData();
-        formData.append('pdf', file);
+    pdfInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
 
-        fetch('/validate-pdf', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.valid) {
-                // If valid, proceed with the upload
-                return fetch('/zone-confirm', {
-                  method: 'POST',
-                  body: formData
-                });
-            } else {
-                // If invalid, render the error template
-                window.location.href = '/invalid-pdf';
-            }
-        })
-        .then(response => {
-            if (response) return response.json();
-        })
-        .then(data => {
-            if (data) {
-                const zoneCoef = data.Cl;
-                textInput = data.text;
-                zoneCoefInput.value = zoneCoef;
-                zoneCoefInput.style.display = 'block';
-                confirmBtn.style.display = 'block';
-                instructionH4.style.display = 'block';
-                box.classList.add('expanded');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
+      if (file) {
+          const formData = new FormData();
+          formData.append('pdf', file);
+
+          fetch('/validate-pdf', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.valid) {
+                  // If valid, proceed with the upload
+                  return fetch('/zone-confirm', {
+                    method: 'POST',
+                    body: formData
+                  });
+              } else {
+                  // If invalid, render the error template
+                  window.location.href = '/invalid-pdf';
+              }
+          })
+          .then(response => {
+              if (response) return response.json();
+          })
+          .then(data => {
+              if (data) {
+                  const zoneCoef = data.Cl;
+                  textInput = data.text;
+                  zoneCoefInput.value = zoneCoef;
+                  zoneCoefInput.style.display = 'block';
+                  confirmBtn.style.display = 'block';
+                  instructionH4.style.display = 'block';
+                  box.classList.add('expanded');
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      }
+    });
+
+    // Add event listener for confirm button
+    confirmBtn.addEventListener('click', function() {
+      const zoneCoef = zoneCoefInput.value;
+
+      // Use the hidden form at the end of index.html
+      document.getElementById('zoneCoefInput').value = zoneCoef;
+      document.getElementById('textInputHidden').value = textInput;
+      document.getElementById('uploadForm').submit();
+    });
+  }
 });
 
-  // Add event listener for confirm button
-  confirmBtn.addEventListener('click', function() {
-    const zoneCoef = zoneCoefInput.value;
-
-    // Use the hidden form at the end of index.html
-    document.getElementById('zoneCoefInput').value = zoneCoef;
-    document.getElementById('textInputHidden').value = textInput;
-    document.getElementById('uploadForm').submit();
-  });
-});
 
 
 // Format digits and decimal separator on Valor Patrimonial Actual and Área ----
@@ -235,43 +247,46 @@ function validateYear(input) {
 
 document.addEventListener('DOMContentLoaded', function() {
 
-  const form = document.getElementById('input-form');
-  const districtInput = document.getElementsByName('propertyDistrict')[0];
-  const councilInput = document.getElementsByName('propertyCouncil')[0];
-  const parishInput = document.getElementsByName('propertyParish')[0];
+  if (window.location.pathname === '/index' || window.location.pathname === '/index.html' || window.location.pathname === '/') {
 
-  let zoneCodes = [];
+    const form = document.getElementById('input-form');
+    const districtInput = document.getElementsByName('propertyDistrict')[0];
+    const councilInput = document.getElementsByName('propertyCouncil')[0];
+    const parishInput = document.getElementsByName('propertyParish')[0];
 
-  fetch('/zone-codes')
-      .then(response => response.json())
-      .then(data => {
-          zoneCodes = data;
-      })
-      .catch(error => {
-          console.error('Error fetching zone codes:', error);
-          alert('Error loading zone codes. Please refresh the page.');
-      });
+    let zoneCodes = [];
 
-  form.addEventListener('submit', function(event) {
-      event.preventDefault();
+    fetch('/zone-codes')
+        .then(response => response.json())
+        .then(data => {
+            zoneCodes = data;
+        })
+        .catch(error => {
+            console.error('Error fetching zone codes:', error);
+            alert('Error loading zone codes. Please refresh the page.');
+        });
 
-      const district = districtInput.value;
-      const council = councilInput.value;
-      const parish = parishInput.value;
-      const fourDigitCode = district + council;
-      const sixDigitCode = district + council + parish;
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-      if (zoneCodes.includes(fourDigitCode) || zoneCodes.includes(sixDigitCode)) {
-          form.submit();
-      } else {
-          parishInput.setCustomValidity("Código inválido. Verifique os três campos de distrito, concelho e freguesia.");
-          parishInput.reportValidity();
-      }
-  });
+        const district = districtInput.value;
+        const council = councilInput.value;
+        const parish = parishInput.value;
+        const fourDigitCode = district + council;
+        const sixDigitCode = district + council + parish;
 
-  [districtInput, councilInput, parishInput].forEach(input => {
-      input.addEventListener('input', function() {
-          parishInput.setCustomValidity("");
-      });
-  });
+        if (zoneCodes.includes(fourDigitCode) || zoneCodes.includes(sixDigitCode)) {
+            form.submit();
+        } else {
+            parishInput.setCustomValidity("Código inválido. Verifique os três campos de distrito, concelho e freguesia.");
+            parishInput.reportValidity();
+        }
+    });
+
+    [districtInput, councilInput, parishInput].forEach(input => {
+        input.addEventListener('input', function() {
+            parishInput.setCustomValidity("");
+        });
+    });
+  }
 });

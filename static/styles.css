@@ -181,18 +181,25 @@ input[type="number"]::-webkit-inner-spin-button {
   align-items: start;
 }
 
-.single-box {
-  width: 1200px;
-  justify-content: center;
+.single-box-container {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   height: auto;
   flex-wrap: nowrap;
 }
 
-.single-box .box {
+.single-box-container .box {
   width: 100%;
   height: auto;
   padding: 40px;
+}
+
+.single-box {
+  width: 50%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .h4-hidden {
@@ -233,10 +240,12 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .box .smaller-button-color-4 {
   color: #BA754C;
+  width: 20%;
 }
 
 .box .smaller-button-color-5 {
   color: #7C3626;
+  width: 20%;
 }
 
 .box .smaller-button:hover {
@@ -274,6 +283,11 @@ input[type="number"]::-webkit-inner-spin-button {
   display: none;
 }
 
+img, .fa {
+  max-width: 100%;
+  height: auto;
+}
+
 
 
 /* For screens smaller than 768px (tablets and phones) */
@@ -300,28 +314,39 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 1.5em;
   }
 
-  .single-box .box {
-    width: 90%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  .form-container {
-    height: auto;
+  .single-box-container {
+    width: 95%;
   }
 
-  .field-container {
-    height: auto;
-  }
-
-  .smaller-button {
+  .single-box {
     width: 100%;
+    padding: 20px;
+    margin: 10px auto;
+  }
+
+  .single-box h2 {
+      font-size: 1.5em;
+      padding: 10px 0;
+  }
+
+  .single-box h4 {
+      font-size: 1em;
+      padding: 10px 0;
+  }
+
+  .single-box .smaller-button {
+    width: 40%;
     font-size: 1em;
   }
 
   .field-container {
+    height: auto;
     flex-direction: column;
+    width: 100%;
+  }
+
+  .form-container {
+    height: auto;
     width: 100%;
   }
 
@@ -334,12 +359,15 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 1em;
     padding: 8px;
   }
-}
 
-@media (max-width: 768px) {
-  .navbar-left a, .navbar-right {
+  .navbar-left a {
+    font-size: 0.8em;
+    padding: 5px;
+  }
+
+  .navbar-right {
     font-size: 1em;
-    padding: 10px;
+    padding: 5px;
   }
 
   .h4-hidden {
@@ -347,19 +375,8 @@ input[type="number"]::-webkit-inner-spin-button {
     padding: 5px;
   }
 
-  .smaller-button {
-    padding: 10px;
-    font-size: 0.9em;
-  }
-}
-
-img, .fa {
-  max-width: 100%;
-  height: auto;
-}
-
-@media (max-width: 768px) {
   .field-container {
+    height: auto;
     display: flex;
     flex-direction: column;
     width: 100%;
