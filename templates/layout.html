@@ -11,14 +11,20 @@
     <script src="{{url_for('static', filename='scripts.js')}}"></script>
 </head>
 <body>
-    <div class="navbar">
-      <a href="#home">IMInimo</a>
-      <a href="#about">Sobre</a>
+
+  <div class="navbar">
+    <div class="navbar-left">
+      <a href="{{ url_for('about') }}">IMInimo</a>
+    </div>
+    <div class="navbar-right">
+      Menos IMI, mais para si.
+    </div>
   </div>
+
     <main>
 
       <section>
-        <h2>Menos IMI, mais para si.</h2>
+        <br><br>
       </section>
 
           {% block main %}{% endblock %}

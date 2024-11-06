@@ -63,11 +63,10 @@ def get_params_upload(text, registry_year):
 
     A = float(ext_calc[4].replace('.', '').replace(',', '.'))
     Ca = float(ext_calc[6].replace('.', '').replace(',', '.'))
-    Cl = float(ext_calc[8].replace('.', '').replace(',', '.'))
     Cq = float(ext_calc[10].replace('.', '').replace(',', '.'))
     Cv = get_Cv(registry_year)
 
-    return vpt_current, A, Ca, Cl, Cq, Cv
+    return vpt_current, A, Ca, Cq, Cv
 
 
 def get_params_input(input_dict, registry_year):
@@ -82,7 +81,7 @@ def get_params_input(input_dict, registry_year):
     return vpt_current, A, Ca, Cl, Cq, Cv
 
 
-def compute_savings(calc_type, text, input_dict):
+def compute_savings(calc_type, text, input_dict, validated_zone_coef):
     """ Compute possible savings based on uploaded file and manual input """
 
     if calc_type == "upload":
@@ -90,7 +89,9 @@ def compute_savings(calc_type, text, input_dict):
         district_council, district_council_parish = get_zone_code(text)
         registry_year = get_registry_year(text)
         appraisal_date = get_appraisal_date(text)
-        vpt_current, A, Ca, Cl, Cq, Cv = get_params_upload(text, registry_year)
+        vpt_current, A, Ca, Cq, Cv = get_params_upload(text, registry_year)
+        Cl = float(validated_zone_coef)
+        print(Cl)
         successful_calculation = True
 
     elif calc_type == "input":
@@ -111,17 +112,17 @@ def compute_savings(calc_type, text, input_dict):
 
     if appraisal_date + relativedelta(years=3) > dt.date.today():
         output_message = (
-            f"Ainda não é possível pedir uma reavaliação. A última "
+            f"Ainda não é possível pedir uma reavaliação.<br><br>A última "
             f"reavaliação deste imóvel foi feita em {str(appraisal_date)}. A "
             f"Autoridade Tributária impõe um período mínimo de 3 anos entre "
-            f"reavaliações. Para saber se pode poupar no IMI, volte a esta "
+            f"reavaliações.<br><br>Para saber se pode poupar no IMI, volte a esta "
             f"ferramenta no fim desse prazo, uma vez que vários parâmetros de "
             f"cálculo podem ser alterados pela Autoridade Tributária até lá."
         )
 
     elif vpt_new > vpt_current:
         output_message = (
-            f"Não é aconselhável pedir já uma reavaliação. Uma "
+            f"Não é aconselhável pedir já uma reavaliação.<br><br>Uma "
             f"reavaliação pedida neste momento irá fazer subir o Valor Patrimonial "
             f"do imóvel para {str(int(vpt_new))} €. Esta situação poderá dever-se "
             f"à subida de alguns dos parâmetros de cálculo pela Autoridade Tributária."
@@ -145,11 +146,11 @@ def compute_savings(calc_type, text, input_dict):
         if imi_savings >= 10:
 
             output_message = (
-                f"Você pode passar a pagar menos IMI! Se pedir uma "
+                f"Você pode passar a pagar menos IMI!<br><br>Se pedir uma "
                 f"reavaliação à Autoridade Tributária, o Valor Patrimonial do "
                 f"imóvel passará a ser de {str(int(vpt_new))} € e o valor do IMI "
-                f"anual a pagar de {str(imi_new)} €. Com a taxa de "
-                f"{str(dt.date.today().year)}, a poupança anual de IMI neste "
+                f"anual a pagar de {str(imi_new)} €.<br><br>Com a taxa de "
+                f"{str(dt.date.today().year)}, a redução do IMI anual neste "
                 f"imóvel é de {str(int(round(imi_savings, 0)))} €!"
             )
 
@@ -161,11 +162,12 @@ def compute_savings(calc_type, text, input_dict):
                 * council_rate, 2) - round(vpt_new * council_rate, 2))
 
             output_message = (
-                f"Pode pagar menos, mas pode não compensar. Uma "
+                f"Pode pagar menos, mas pode não compensar.<br><br>Uma "
                 f"reavaliação irá resultar numa poupança anual no IMI do imóvel "
-                f"de {imi_savings_low} €. Recordamos que as reavaliações só podem "
-                f"ser pedidas de 3 em 3 anos, pelo que deve analisar se esta é a "
-                f"melhor opção para si. Consulte o seu Serviço de Finanças."
+                f"de {imi_savings_low} €.<br><br>Recordamos que as reavaliações "
+                f"só podem ser pedidas de 3 em 3 anos, pelo que deve analisar "
+                f"se esta é a melhor opção para si.<br><br>Recomendamos que "
+                f"consulte o seu Serviço de Finanças."
             )
 
     return successful_calculation, output_message

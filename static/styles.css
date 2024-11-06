@@ -53,22 +53,25 @@ a:link, a:visited {
 }
 
 
-
 .navbar {
   height: 40px;
-  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
-  padding-top: 10px;
+  padding: 10px 20px;
+}
+
+.navbar-left, .navbar-right {
+  font-size: 20px;
+  flex: 1;
 }
 
 .navbar a {
-  float: left;
-  display: block;
   color: #003366;
-  text-align: center;
-  padding: 5px 20px;
   text-decoration: none;
+  padding: 5px 10px;
 }
 
 .navbar a:hover {
@@ -76,6 +79,12 @@ a:link, a:visited {
   color: white;
   border-radius: 10px;
 }
+
+.navbar-right {
+  color: #003366;
+  text-align: right;
+}
+
 
 .section {
   justify-content: center;
@@ -119,12 +128,12 @@ a:link, a:visited {
   margin-bottom: 15px;
 }
 
-/* Remove arrows in Firefox */
+/* Remove arrows in number input fields (Firefox) */
 input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* Remove arrows in Chrome, Safari, Edge, and Opera */
+/* Remove arrows in number input fields (Chrome, Safari, Edge, and Opera) */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -200,13 +209,13 @@ input[type="number"]::-webkit-inner-spin-button {
 .box .smaller-button {
   width: 40%;
   margin-top: 20px;
-  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
   font-family: "Montserrat";
   font-size: 16px;
+  background-color: white;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -223,7 +232,11 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .box .smaller-button-color-4 {
-  color: #A0522D;
+  color: #BA754C;
+}
+
+.box .smaller-button-color-5 {
+  color: #7C3626;
 }
 
 .box .smaller-button:hover {

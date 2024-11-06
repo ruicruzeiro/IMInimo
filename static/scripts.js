@@ -61,12 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
   const uploadBtn = document.getElementById('upload-btn');
   const pdfInput = document.getElementById('pdf-input');
-  const box = document.querySelector('.box[style*="background-color: #483D8B"]'); // Select "Carregar Caderneta Predial" box
-  const zoneCoefInput = document.createElement('input'); // Input for zone_coef value
-  const confirmBtn = document.createElement('button'); // Confirm button
+  const box = document.querySelector('.box[style*="background-color: #483D8B"]');
+  const zoneCoefInput = document.createElement('input');
+  const confirmBtn = document.createElement('button');
 
   const instructionH4 = document.createElement('h4');
-  instructionH4.style.display = 'none'; // Initially hidden
+  instructionH4.style.display = 'none';
   instructionH4.innerHTML = '<br><br>O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">neste mapa</a> e clique em Confirmar.';
 
   // Set up the new input field for zone_coef
@@ -83,12 +83,12 @@ document.addEventListener('DOMContentLoaded', function() {
   zoneCoefInput.style.outline = 'none';
   zoneCoefInput.style.height = '30px';
   zoneCoefInput.style.marginTop = '20px';
-  zoneCoefInput.style.display = 'none'; // Hidden initially
+  zoneCoefInput.style.display = 'none';
 
   // Set up the confirm button
   confirmBtn.textContent = 'Confirmar';
   confirmBtn.className = 'smaller-button smaller-button-color-2';
-  confirmBtn.style.display = 'none'; // Hidden initially
+  confirmBtn.style.display = 'none';
 
   // Insert the new elements into the form container
   const formContainer = box.querySelector('.form-container');
@@ -100,41 +100,62 @@ document.addEventListener('DOMContentLoaded', function() {
       pdfInput.click();
   });
 
+  let textInput;
+
   pdfInput.addEventListener('change', function(event) {
-      const file = event.target.files[0];
+    const file = event.target.files[0];
 
-      if (file) {
-          const formData = new FormData();
-          formData.append('pdf', file);
+    if (file) {
+        const formData = new FormData();
+        formData.append('pdf', file);
 
-          fetch('/upload', {
-            method: 'POST',
-            body: formData
-          })
-          .then(response => response.json())
-          .then(data => {
-              const zoneCoef = data.Cl; // Extracted zone_coef value from server
-              zoneCoefInput.value = zoneCoef; // Set input value
-              zoneCoefInput.style.display = 'block'; // Show the input
-              confirmBtn.style.display = 'block'; // Show the confirm button
-              instructionH4.style.display = 'block';
-
-              box.classList.add('expanded'); // Expand the box
-          })
-          .catch(error => {
-            console.error('Error uploading file:', error);
+        fetch('/validate-pdf', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.valid) {
+                // If valid, proceed with the upload
+                return fetch('/zone-confirm', {
+                  method: 'POST',
+                  body: formData
+                });
+            } else {
+                // If invalid, render the error template
+                window.location.href = '/invalid-pdf';
+            }
+        })
+        .then(response => {
+            if (response) return response.json();
+        })
+        .then(data => {
+            if (data) {
+                const zoneCoef = data.Cl;
+                textInput = data.text;
+                zoneCoefInput.value = zoneCoef;
+                zoneCoefInput.style.display = 'block';
+                confirmBtn.style.display = 'block';
+                instructionH4.style.display = 'block';
+                box.classList.add('expanded');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
-      }
-  });
+    }
+});
 
   // Add event listener for confirm button
   confirmBtn.addEventListener('click', function() {
-      alert(`Zone Coefficient confirmed: ${zoneCoefInput.value}`);
-      // Additional logic on confirmation can go here
+    const zoneCoef = zoneCoefInput.value;
+
+    // Use the hidden form at the end of index.html
+    document.getElementById('zoneCoefInput').value = zoneCoef;
+    document.getElementById('textInputHidden').value = textInput;
+    document.getElementById('uploadForm').submit();
   });
 });
-
-
 
 
 // Format digits and decimal separator on Valor Patrimonial Actual and Área ----
