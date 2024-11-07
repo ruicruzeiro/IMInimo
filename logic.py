@@ -111,7 +111,17 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
     # valor de construção em 26-07-2024 (última actualização deste código)
     Vc = 665.00 # Valor em 2022: 640; actualizado em 2023, mantido em 2024
 
+    if district_council == '1304':
+        council_rate = gondomar[district_council_parish]
+    elif district_council == '0107':
+        council_rate = espinho[district_council_parish]
+    else:
+        council_rate = portugal[district_council]
+
     vpt_new = round(Vc * A * Ca * Cl * Cq * Cv, 2)
+    imi_current = round(vpt_current * council_rate, 0)
+    imi_new = round(vpt_new * council_rate, 0)
+    imi_savings = imi_current - imi_new
 
     if appraisal_date + relativedelta(years=3) > dt.date.today():
 
@@ -129,34 +139,33 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
         output_message = (
             f"Não é aconselhável pedir já uma reavaliação.<br><br>Uma "
             f"reavaliação pedida neste momento irá fazer subir o Valor Patrimonial "
-            f"do imóvel para {currency_format(vpt_new)}. Esta situação poderá dever-se "
-            f"à subida de alguns dos parâmetros de cálculo pela Autoridade Tributária."
+            f"do imóvel. Esta situação poderá dever-se à subida de alguns dos"
+            f"parâmetros de cálculo pela Autoridade Tributária.<br><br>"
+            f"Valor Patrimonial actual: {currency_format(vpt_current)}<br>"
+            f"Valor Patrimonial após reavaliação: {currency_format(vpt_new)}<br><br>"
+            f"IMI actual: {currency_format(imi_current)}<br>"
+            f"IMI após reavaliação: {currency_format(imi_new)}<br><br>"
+            f"Aumento do IMI: {currency_format(abs(imi_savings))}<br><br>"
         )
 
     elif vpt_new <= vpt_current:
 
         # em 2024, Gondomar e Espinho são os únicos concelhos com taxas diferentes em algumas freguesias
 
-        if district_council == '1304':
-            council_rate = gondomar[district_council_parish]
-        elif district_council == '0107':
-            council_rate = espinho[district_council_parish]
-        else:
-            council_rate = portugal[district_council]
-
-        imi_current = round(vpt_current * council_rate, 0)
-        imi_new = round(vpt_new * council_rate, 0)
-        imi_savings = imi_current - imi_new
-
         if imi_savings >= 10:
 
             output_message = (
-                f"Você pode passar a pagar menos IMI!<br><br>Se pedir uma "
-                f"reavaliação à Autoridade Tributária, o Valor Patrimonial do "
-                f"imóvel passará a ser de {currency_format(vpt_new)} e o valor "
-                f"do IMI anual a pagar de {currency_format(imi_new)}.<br><br>Com "
-                f"a taxa de {str(dt.date.today().year)}, a redução do IMI anual "
-                f"neste imóvel é de {currency_format(imi_savings)}!"
+                f"Você pode passar a pagar menos IMI!<br><br>Poderá poupar "
+                f"{currency_format(imi_savings)} por ano se pedir uma "
+                f"reavaliação à Autoridade Tributária. O Valor Patrimonial do "
+                f"imóvel irá reduzir e, com ele, o valor do IMI anual a pagar "
+                f"(à taxa de {str(dt.date.today().year)}).<br><br>"
+                f"Valor Patrimonial actual: {currency_format(vpt_current)}<br>"
+                f"Valor Patrimonial após reavaliação: {currency_format(vpt_new)}<br><br>"
+                f"IMI actual: {currency_format(imi_current)}<br>"
+                f"IMI após reavaliação: {currency_format(imi_new)}<br><br>"
+                f"Redução do IMI: {currency_format(imi_savings)}<br><br><br>"
+                f"Menos IMI, mais para si!"
             )
 
         # não há poupança ou esta é inferior a 10 €.
@@ -164,15 +173,20 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
         else:
 
             imi_savings_low = "{:.2f}".format(round(vpt_current \
-                * council_rate, 2) - round(vpt_new * council_rate, 2))
+                * council_rate, 2) - round(vpt_new * council_rate, 2)) + "\u00A0€"
 
             output_message = (
-                f"Pode pagar menos, mas pode não compensar.<br><br>Uma "
+                f"Pode pagar menos IMI, mas pode não compensar.<br><br>Uma "
                 f"reavaliação irá resultar numa poupança anual no IMI do imóvel "
-                f"de {imi_savings_low} €.<br><br>Recordamos que as reavaliações "
+                f"de {imi_savings_low}.<br><br>Recordamos que as reavaliações "
                 f"só podem ser pedidas de 3 em 3 anos, pelo que deve analisar "
-                f"se esta é a melhor opção para si.<br><br>Recomendamos que "
-                f"consulte o seu Serviço de Finanças."
+                f"se esta é a melhor opção para si. Recomendamos que "
+                f"consulte o seu Serviço de Finanças.<br><br>"
+                f"Valor Patrimonial actual: {currency_format(vpt_current)}<br>"
+                f"Valor Patrimonial após reavaliação: {currency_format(vpt_new)}<br><br>"
+                f"IMI actual: {currency_format(imi_current)}<br>"
+                f"IMI após reavaliação: {currency_format(imi_new)}<br><br>"
+                f"Redução do IMI: {imi_savings_low}<br><br>"
             )
 
     return successful_calculation, output_message

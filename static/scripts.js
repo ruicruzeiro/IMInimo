@@ -74,8 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const box = document.querySelector('.box[style*="background-color: #483D8B"]');
     const zoneCoefInput = document.createElement('input');
     const confirmBtn = document.createElement('button');
-
     const instructionH4 = document.createElement('h4');
+
     instructionH4.style.display = 'none';
     instructionH4.innerHTML = '<br><br>O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">neste mapa</a> e clique em Confirmar.';
 
@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let textInput;
 
     pdfInput.addEventListener('change', function(event) {
+
       const file = event.target.files[0];
 
       if (file) {
@@ -147,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   zoneCoefInput.style.display = 'block';
                   confirmBtn.style.display = 'block';
                   instructionH4.style.display = 'block';
+                  uploadBtn.style.display = 'none';
                   box.classList.add('expanded');
               }
           })
