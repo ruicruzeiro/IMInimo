@@ -6,6 +6,7 @@
 
   <div class="box-container">
 
+
     <div class="box" style="background-color: #003366">
       <h2>Como poupar no IMI</h2>
       <div class="h4-hidden">Compreenda as reavaliações da Autoridade Tributária</div>
@@ -28,6 +29,7 @@
       </div>
     </div>
 
+
     <div class="box" style="background-color: #483D8B">
       <h2>Carregar Caderneta Predial</h2>
       <div class="h4-hidden">Carregue a sua Caderneta Predial Urbana para calcularmos a poupança automaticamente</div>
@@ -36,74 +38,107 @@
           A Caderneta Predial deverá estar em formato PDF e não ser digitalizada.<br><br>
           Pode obter este documento no formato correcto no site da Autoridade Tributária.
         </h4>
-        <button id="upload-btn" class="smaller-button smaller-button-color-2">Carregar PDF</button>
-        <input type="file" id="pdf-input" accept="application/pdf" style="display:none">
-        <div id="loadingSpinner" class="spinner" style="display: none;"></div>
+        <form id="upload-terms-form">
+          <h6 id="auto-input-h6">
+            <table>
+              <tr>
+                <td><input type="checkbox" id="upload-checkbox" required></td>
+                <td>Li e aceito os <a href="{{url_for('terms_conditions')}}" target="_blank">Termos e Condições</a>, a <a href="{{url_for('privacy_policy')}}" target="_blank">Política de Privacidade</a> e a <a href="{{url_for('cookie_policy')}}" target="_blank">Política de Cookies</a>.</td>
+              </tr>
+            </table>
+          </h6>
+
+          <div id="warning-text-upload" style="display: none">
+            É necessário aceitar os termos, condições e políticas para continuar.
+          </div>
+
+        </form>
+
+        <div id="upload-btn-wrapper">
+          <button id="upload-btn" class="smaller-button smaller-button-color-2" disabled>Carregar PDF</button>
+          <input type="file" id="pdf-input" accept="application/pdf" style="display:none">
+        </div>
 
       </div>
     </div>
+
 
     <div class="box" style="background-color: #4682B4">
       <h2>Inserir manualmente</h2>
       <div class="h4-hidden">Se preferir, insira manualmente os dados da sua Caderneta Predial</div>
       <div class="form-container">
-        <form id="input-form" action="/input" method="post">
+      <form id="input-form" action="/input" method="post">
 
-          <div class="field-container">
-            <input autocomplete="off" autofocus name="VPTCurrent" placeholder="Valor Patrimonial Actual (CIMI)" required type="text" onkeypress="return allowOnlyDecimalNums(event)">
-            <i class="far fa-question-circle question-mark" text-id="text-1" id="questionIcon"></i>
-          </div>
-          <div class="help-text" id="text-1">O Valor Patrimonial Actual pode ser encontrado na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
+        <div class="field-container">
+          <input autocomplete="off" autofocus name="VPTCurrent" placeholder="Valor Patrimonial Actual (CIMI)" required type="text" onkeypress="return allowOnlyDecimalNums(event)">
+          <i class="far fa-question-circle question-mark" text-id="text-1" id="questionIcon"></i>
+        </div>
+        <div class="help-text" id="text-1">O Valor Patrimonial Actual pode ser encontrado na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
-          <div class="field-container">
-            <input autocomplete="off" autofocus name="appraisalArea" placeholder="Área de Avaliação (A)" required type="text" onkeypress="return allowOnlyDecimalNums(event)">
-            <i class="far fa-question-circle question-mark" text-id="text-2"></i>
-          </div>
-          <div class="help-text" id="text-2">A Área de Avaliação pode ser encontrada na secção "Dados de Avaliação" da Caderneta Predial Urbana, no quadro de cálculo do Valor Patrimonial (factor "A", na terceira quadrícula).</div>
+        <div class="field-container">
+          <input autocomplete="off" autofocus name="appraisalArea" placeholder="Área de Avaliação (A)" required type="text" onkeypress="return allowOnlyDecimalNums(event)">
+          <i class="far fa-question-circle question-mark" text-id="text-2"></i>
+        </div>
+        <div class="help-text" id="text-2">A Área de Avaliação pode ser encontrada na secção "Dados de Avaliação" da Caderneta Predial Urbana, no quadro de cálculo do Valor Patrimonial (factor "A", na terceira quadrícula).</div>
 
-          <div class="field-container">
-            <input autocomplete="off" autofocus name="registryYear" placeholder="Ano de inscrição na matriz" required type="number"  maxlength="4" min="1900" max="2024" oninput="validateYear(this)">
-            <i class="far fa-question-circle question-mark" text-id="text-3"></i>
-          </div>
-          <div class="help-text" id="text-3">O Ano de Inscrição na Matriz é o primeiro campo da secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
+        <div class="field-container">
+          <input autocomplete="off" autofocus name="registryYear" placeholder="Ano de inscrição na matriz" required type="number"  maxlength="4" min="1900" max="2024" oninput="validateYear(this)">
+          <i class="far fa-question-circle question-mark" text-id="text-3"></i>
+        </div>
+        <div class="help-text" id="text-3">O Ano de Inscrição na Matriz é o primeiro campo da secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
-          <h4>Data da última avaliação<i class="far fa-question-circle question-mark" text-id="text-4"></i></h4>
-          <div class="field-container">
-            <input autocomplete="off" autofocus name="appraisalDate" placeholder="Avaliada em" required type="date">
-          </div>
-          <div class="help-text" id="text-4">A data da última avaliação corresponde ao campo "Avaliada em" na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
+        <h4>Data da última avaliação<i class="far fa-question-circle question-mark" text-id="text-4"></i></h4>
+        <div class="field-container">
+          <input autocomplete="off" autofocus name="appraisalDate" placeholder="Avaliada em" required type="date">
+        </div>
+        <div class="help-text" id="text-4">A data da última avaliação corresponde ao campo "Avaliada em" na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
-          <h4>Coeficientes<i class="far fa-question-circle question-mark" text-id="text-5" id="questionIcon"></i></h4>
-          <div class="field-container coef-container">
-            <input autocomplete="off" autofocus name="Ca" placeholder="Ca" required type="text" maxlength="5" onkeypress="return allowOnlyDecimalNums(event)">
-            <input autocomplete="off" autofocus name="Cq" placeholder="Cq" required type="text" maxlength="5" onkeypress="return allowOnlyDecimalNums(event)">
-            <input autocomplete="off" autofocus name="Cl" placeholder="Cl" required type="text" maxlength="5" onkeypress="return allowOnlyDecimalNums(event)">
-          </div>
-          <div class="help-text" id="text-5">
-              Ca - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi41.aspx" target="_blank">
-              Afectação</a>;
-              Cq - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi43.aspx" target="_blank">
-              Qualidade e conforto</a>;
-              Cl - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi42.aspx" target="_blank">
-              Localização</a> (O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">
-              neste mapa</a>).
-          </div>
+        <h4>Coeficientes<i class="far fa-question-circle question-mark" text-id="text-5" id="questionIcon"></i></h4>
+        <div class="field-container coef-container">
+          <input autocomplete="off" autofocus name="Ca" placeholder="Ca" required type="text" maxlength="5" onkeypress="return allowOnlyDecimalNums(event)">
+          <input autocomplete="off" autofocus name="Cq" placeholder="Cq" required type="text" maxlength="5" onkeypress="return allowOnlyDecimalNums(event)">
+          <input autocomplete="off" autofocus name="Cl" placeholder="Cl" required type="text" maxlength="5" onkeypress="return allowOnlyDecimalNums(event)">
+        </div>
+        <div class="help-text" id="text-5">
+            Ca - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi41.aspx" target="_blank">
+            Afectação</a>;
+            Cq - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi43.aspx" target="_blank">
+            Qualidade e conforto</a>;
+            Cl - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi42.aspx" target="_blank">
+            Localização</a> (O coeficiente de localização da sua Caderneta pode ter sofrido alterações. Encontre o mais recente <a href="https://zonamentopf.portaldasfinancas.gov.pt/simulador/default.jsp" target="_blank">
+            neste mapa</a>).
+        </div>
 
-          <h4>Códigos numéricos de localização<i class="far fa-question-circle question-mark" text-id="text-6" id="questionIcon"></i></h4>
-          <div class="field-container coef-container">
-            <input autocomplete="off" autofocus name="propertyDistrict" placeholder="Distrito" required type="text" maxlength="2" onkeypress="return allowOnlyDigits(event)">
-            <input autocomplete="off" autofocus name="propertyCouncil" placeholder="Concelho" required type="text" maxlength="2" onkeypress="return allowOnlyDigits(event)">
-            <input autocomplete="off" autofocus name="propertyParish" placeholder="Freguesia" required type="text" maxlength="2" onkeypress="return allowOnlyDigits(event)">
-          </div>
-          <div class="help-text" id="text-6">
-              Os códigos de localização têm dois dígitos e encontram-se na primeira secção da
-              Caderneta Predial, "Identificação do Prédio". Exemplos: 03, 06, 18...
-          </div>
+        <h4>Códigos numéricos de localização<i class="far fa-question-circle question-mark" text-id="text-6" id="questionIcon"></i></h4>
+        <div class="field-container coef-container">
+          <input autocomplete="off" autofocus name="propertyDistrict" placeholder="Distrito" required type="text" maxlength="2" onkeypress="return allowOnlyDigits(event)">
+          <input autocomplete="off" autofocus name="propertyCouncil" placeholder="Concelho" required type="text" maxlength="2" onkeypress="return allowOnlyDigits(event)">
+          <input autocomplete="off" autofocus name="propertyParish" placeholder="Freguesia" required type="text" maxlength="2" onkeypress="return allowOnlyDigits(event)">
+        </div>
+        <div class="help-text" id="text-6">
+            Os códigos de localização têm dois dígitos e encontram-se na primeira secção da
+            Caderneta Predial, "Identificação do Prédio". Exemplos: 03, 06, 18...
+        </div>
 
+        <h6 id="manual-input-h6">
+          <table>
+            <tr>
+              <td><input type="checkbox" id="input-checkbox" required></td>
+              <td>Li e aceito os <a href="{{url_for('terms_conditions')}}" target="_blank">Termos e Condições</a>, a <a href="{{url_for('privacy_policy')}}" target="_blank">Política de Privacidade</a> e a <a href="{{url_for('cookie_policy')}}" target="_blank">Política de Cookies</a>.</td>
+            </tr>
+          </table>
+        </h6>
 
+        <div id="warning-text-input" style="display: none">
+          É necessário aceitar os termos, condições e políticas para continuar.
+        </div>
+
+        <div id="input-btn-wrapper">
           <button id="input-btn" class="smaller-button smaller-button-color-3" type="submit">Calcular</button>
-          <input type="file" id="pdf-input" accept="application/pdf" style="display:none">
-        </form>
+          <input type="file" id="manual-input" accept="application/pdf" style="display:none">
+        </div>
+
+      </form>
 
       </div>
     </div>

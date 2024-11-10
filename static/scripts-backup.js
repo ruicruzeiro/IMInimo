@@ -4,9 +4,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   const boxes = document.querySelectorAll('.box');
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  const warningDivs = document.querySelectorAll('#warning-text-upload, #warning-text-input');
-  const submitBtns = document.querySelectorAll('#upload-btn, #input-btn');
 
   boxes.forEach(box => {
 
@@ -16,25 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const content = box.querySelector('.form-container');
     box.addEventListener('click', function() {
-
         boxes.forEach(b => {
             if (b !== box) {
                 b.classList.remove('expanded');
             }
         });
         box.classList.toggle('expanded');
-
-        checkboxes.forEach(checkbox => {
-          checkbox.checked = false;
-        });
-
-        warningDivs.forEach(div => {
-          div.style.display = 'none';
-        });
-
-        submitBtns.forEach(btn => {
-          btn.disabled = true;
-        });
     });
 
     if (content) {
@@ -315,12 +299,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener("DOMContentLoaded", function() {
 
-  // For the upload box
-
   const uploadCheckbox = document.getElementById("upload-checkbox");
   const uploadBtn = document.getElementById("upload-btn");
-  const uploadBtnWrapper = document.getElementById("upload-btn-wrapper");
+  const uploadForm = document.getElementById("upload-terms-form");
   const uploadWarningText = document.getElementById("warning-text-upload");
+
+
+
 
   uploadCheckbox.addEventListener("change", function () {
     if (uploadCheckbox.checked) {
@@ -328,34 +313,24 @@ document.addEventListener("DOMContentLoaded", function() {
       uploadWarningText.style.display = "none";
     } else {
       uploadBtn.disabled = true;
+      uploadWarningText.style.display = "block";
     }
-  });
+  })
 
-  uploadBtnWrapper.addEventListener('click', function() {
+
+
+  uploadForm.addEventListener("submit", function(event) {
     if (!uploadCheckbox.checked) {
-      uploadWarningText.style.display = 'block';
-    }
-  });
+      // Prevent form submission if checkbox is not checked
 
-  // For the manual input box
-
-  const inputCheckbox = document.getElementById("input-checkbox");
-  const inputBtn = document.getElementById("input-btn");
-  const inputBtnWrapper = document.getElementById("input-btn-wrapper");
-  const inputWarningText = document.getElementById("warning-text-input");
-
-  inputCheckbox.addEventListener("change", function () {
-    if (inputCheckbox.checked) {
-      inputBtn.disabled = false;
-      inputWarningText.style.display = "none";
+      uploadWarningText.style.display = "block"; // Show the warning
     } else {
-      inputBtn.disabled = true;
+      // Proceed with form submission
+      pdfButton.click();
     }
   });
 
-  inputBtnWrapper.addEventListener('click', function() {
-    if (!inputCheckbox.checked) {
-      inputWarningText.style.display = 'block';
-    }
-  });
+
+
+
 });

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms and Conditions</title>
+  <style>
+    #warning-text {
+      color: red;
+      display: none; /* Initially hidden */
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <form id="terms-form">
+      <label>
+        <input type="checkbox" id="terms-checkbox">
+        I accept the <a href="#" target="_blank">Terms and Conditions</a>.
+      </label>
+      <br>
+      <button type="submit" id="submit-btn" disabled>Submit</button>
+      <div id="warning-text">You must accept the terms and conditions to proceed.</div>
+    </form>
+  </div>
+
+  <script>
+    // Wait for the DOM to load
+    document.addEventListener('DOMContentLoaded', function() {
+      const termsCheckbox = document.getElementById("terms-checkbox");
+      const submitBtn = document.getElementById("submit-btn");
+      const warningText = document.getElementById("warning-text");
+
+      // Enable or disable the submit button based on checkbox state
+      termsCheckbox.addEventListener("change", function() {
+        if (termsCheckbox.checked) {
+          submitBtn.disabled = false; // Enable the button
+          warningText.style.display = "none"; // Hide the warning
+        } else {
+          submitBtn.disabled = true; // Disable the button
+        }
+      });
+
+      // Handle form submission
+      document.getElementById("terms-form").addEventListener("submit", function(event) {
+        if (!termsCheckbox.checked) {
+          // Prevent form submission if checkbox is not checked
+          event.preventDefault();
+          warningText.style.display = "block"; // Show the warning
+        } else {
+          // Proceed with form submission
+          alert("Form submitted!");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

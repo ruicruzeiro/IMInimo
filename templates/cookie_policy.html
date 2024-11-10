@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<section>
+  <h5 id="legal-text">
+    <strong>Política de Cookies</strong>
+    <br><br><br>
+    Este site não utiliza cookies, nem outras formas de armazenamento de dados no navegador <i>(browser)</i>, como <i>local storage</i> ou <i>session storage</i>.
+    Abaixo detalhamos como o site trata os dados e porque não há necessidade de armazenamento no navegador.
+    <br><br>
+    <strong>O que são cookies e armazenamento local no navegador?</strong>
+    <br>
+    Cookies são pequenos ficheiros de texto armazenados no dispositivo do utilizador através do navegador, utilizados para reter informações entre visitas e melhorar a experiência do utilizador. Outras tecnologias de armazenamento no navegador, como <i>local storage</i> e <i>session storage</i>, também permitem que os sites armazenem dados temporários ou persistentes no navegador do utilizador.
+    <br><br>
+    <strong>Porque não são utilizados cookies ou armazenamento de dados no navegador no IMInimo?</strong>
+    <br>
+    Este site foi desenvolvido para oferecer um serviço simples e directo, sem a necessidade de reter informações entre visitas ou de armazenar dados localmente no navegador. Todas as operações e cálculos realizados pelo site são executados de forma temporária e não requerem qualquer forma de armazenamento persistente ou temporário no dispositivo do utilizador.
+    <br><br>
+    <strong>Como são processados os dados?</strong>
+    <br>
+    Os dados inseridos pelo utilizador (por exemplo, dados extraídos de um PDF) são processados diretamente no servidor, sem que qualquer dado pessoal seja armazenado, retido ou transferido para o navegador. A aplicação usa expressões regulares <i>(regex)</i> para extrair apenas os parâmetros necessários, garantindo que dados irrelevantes ou pessoais sejam ignorados e que todos os dados sejam descartados imediatamente após o processamento.
+    <br><br>
+    <strong>Ausência de criação de conta e autenticação</strong>
+    <br>
+    Este site não exige a criação de conta ou autenticação para acesso. Todas as funcionalidades estão disponíveis de forma anónima, sem a necessidade de registar ou salvar qualquer informação do utilizador.
+    <br><br>
+    <strong>Garantia de privacidade</strong>
+    <br>
+    Ao não utilizar cookies ou outras formas de armazenamento local, o site assegura que os dados do utilizador permanecem privados e que não há qualquer tipo de rastreamento ou retenção de dados. O site está em conformidade com o Regulamento Geral de Protecção de Dados (RGPD), garantindo a privacidade do utilizador ao não armazenar informações além do processamento imediato e temporário necessário para o funcionamento do serviço.
+    <br><br>
+    Para mais informações sobre como tratamos dados pessoais durante o processamento, consulte a nossa <a href="{{url_for('privacy_policy')}}">Política de Privacidade</a>.
+  </h5>
+
+
+</section>
+
+{% endblock %}

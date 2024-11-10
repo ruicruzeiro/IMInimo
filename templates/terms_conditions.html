@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<section>
+  <h5 id="legal-text">
+    <strong>Termos e Condições de Uso</strong>
+    <br><br><br>
+    <strong>1. Introdução</strong>
+    <br>
+    Bem-vindo ao nosso site. Este serviço é oferecido gratuitamente e permite calcular, de forma indicativa, a possível poupança no Imposto Municipal sobre Imóveis (IMI) para imóveis urbanos, com base nas informações fornecidas na caderneta predial urbana e nos dados que o utilizador insere. Ao utilizar o site, o utilizador concorda com os presentes Termos e Condições.
+    <br><br>
+    <strong>2. Natureza do Serviço e Isenção de Responsabilidade</strong>
+    <br>
+    2.1. O cálculo de poupança no IMI gerado pelo site é meramente indicativo e não substitui qualquer informação ou cálculo oficial realizado no Portal das Finanças ou por outros meios oficiais do Estado Português.
+    <br>
+    2.2. O proprietário do site não assume qualquer responsabilidade por divergências entre os cálculos apresentados e os cálculos oficiais disponibilizados pelas autoridades fiscais. As estimativas são baseadas nas áreas registadas na caderneta predial e nos dados fornecidos pelo utilizador. Caso existam áreas não registadas ou construídas de forma não autorizada, qualquer pedido de reavaliação do imóvel poderá resultar num ajuste do valor do IMI, pelo que o proprietário do site declina qualquer responsabilidade por tais consequências.
+    <br>
+    2.3. Este serviço destina-se exclusivamente ao cálculo indicativo para imóveis urbanos, não abrangendo imóveis rústicos ou situações em que a afetação do imóvel tenha sido alterada e não conste na caderneta predial atualizada.
+    <br><br>
+    <strong>3. Colecta e Processamento de Dados Pessoais</strong>
+    <br>
+    3.1. Para realizar o cálculo de poupança no IMI, é necessário que o utilizador forneça dados constantes da caderneta predial urbana, na qual estão presentes dados pessoais. Este processamento de dados é automático e feito unicamente para cálculo imediato da estimativa, sem qualquer forma de armazenamento, registo ou retenção de dados pessoais, garantindo assim a privacidade e a segurança das informações do utilizador, conforme as disposições do Regulamento Geral de Proteção de Dados (RGPD) aplicáveis em Portugal e na União Europeia.
+    <br>
+    3.2. O cálculo do IMI pode ser feito de dois modos. O primeiro é através do carregamento da Caderneta Predial do imóvel em formato PDF, no qual o site usa expressões regulares (regex) para extrair apenas os dados necessários ao cálculo, ignorando os dados pessoais presentes naquele documento. O segundo é através da inserção manual, feita pelo utilizador, apenas dos dados, não pessoais, necessários para o cálculo.
+    <br>
+    3.3. O site não guarda quaisquer dados pessoais introduzidos pelos utilizadores, garantindo que todas as informações processadas são imediatamente descartadas após a conclusão do cálculo, e que não são mantidos quaisquer registos das operações realizadas.
+    <br><br>
+    <strong>4. Receitas e Financiamento</strong>
+    <br>
+    Este site é gratuito para os utilizadores e gera receita exclusivamente através de anúncios da Google AdSense para cobrir os custos de alojamento e manutenção do serviço. A utilização do site implica a aceitação da visualização de anúncios, conforme as diretrizes e políticas da Google AdSense.
+    <br><br>
+    <strong>5. Limitações do Cálculo</strong>
+    <br>
+    5.1. Os cálculos realizados pelo site têm em conta apenas as áreas e dados registados na caderneta predial. Não são considerados fatores adicionais, como possíveis deduções concedidas por certos municípios a habitações próprias permanentes para agregados familiares com dependentes, uma vez que tais deduções dependem da situação fiscal individual de cada utilizador.
+    <br>
+    5.2. No caso de áreas construídas de forma não registada ou ilegal, o pedido de reavaliação do imóvel pode resultar num aumento do IMI. O site declina qualquer responsabilidade por efeitos indiretos ou não previstos decorrentes da consulta ou utilização deste serviço.
+    <br>
+    5.3. Este site não considera alterações de afetação do imóvel que não estejam refletidas na caderneta predial, pelo que resultados indicativos podem divergir em tais casos.
+    <br><br>
+    <strong>6. Conformidade Legal</strong>
+    <br>
+    O serviço é oferecido em conformidade com a legislação portuguesa e as regulamentações do RGPD, assegurando que o tratamento de dados pessoais se limita ao necessário para a realização do cálculo indicativo e respeitando sempre os direitos de privacidade do utilizador.
+    <br><br>
+    <strong>7. Alterações aos Termos e Condições</strong>
+    <br>
+    Reservamo-nos o direito de atualizar ou modificar estes Termos e Condições a qualquer momento, sem aviso prévio. Recomendamos que o utilizador consulte regularmente esta página para se manter informado de quaisquer alterações.
+    <br><br>
+    <strong>8. Aceitação dos Termos</strong>
+    <br>
+    O uso contínuo do site implica a aceitação dos Termos e Condições descritos acima. Caso o utilizador não concorde com algum dos pontos, recomenda-se que cesse a utilização do serviço.
+  </h5>
+
+
+</section>
+
+{% endblock %}
