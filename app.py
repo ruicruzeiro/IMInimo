@@ -1,5 +1,6 @@
 import os
 import io
+import sys
 import regex
 from flask import Flask, render_template, request, jsonify
 from PyPDF2 import PdfReader
@@ -38,6 +39,8 @@ def validate_pdf():
 def zone_confirm():
     """ Confirmation of zone coefficient """
 
+    print(request.files)
+    print(request.form)
     file = request.files.get('pdf')
     reader = PdfReader(io.BytesIO(file.read()))
     text = [reader.pages[page].extract_text() for page in range(len(reader.pages))]
@@ -55,6 +58,9 @@ def upload():
     """ Page for the results of the calculation via PDF input """
 
     validated_zone_coef = request.form.get("zoneCoef")
+    were_terms_accepted = request.form.get("zoneCheckbox")
+    if were_terms_accepted != 'true':
+        sys.exit("Invalid acceptance of terms & conditions and policies.")
     text = request.form.get("textInput")
     successful_calculation, output_message = compute_savings("upload", text, {}, validated_zone_coef)
 

@@ -174,11 +174,14 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
+    const zoneUploadCheckbox = document.getElementById("upload-checkbox");
+
     // Add event listener for confirm button
     confirmBtn.addEventListener('click', function() {
       const zoneCoef = zoneCoefInput.value;
 
       // Use the hidden form at the end of index.html
+      document.getElementById('zoneCheckboxChecker').value = zoneUploadCheckbox.checked;
       document.getElementById('zoneCoefInput').value = zoneCoef;
       document.getElementById('textInputHidden').value = textInput;
       document.getElementById('uploadForm').submit();
