@@ -39,8 +39,6 @@ def validate_pdf():
 def zone_confirm():
     """ Confirmation of zone coefficient """
 
-    print(request.files)
-    print(request.form)
     file = request.files.get('pdf')
     reader = PdfReader(io.BytesIO(file.read()))
     text = [reader.pages[page].extract_text() for page in range(len(reader.pages))]

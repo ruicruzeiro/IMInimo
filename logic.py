@@ -94,7 +94,7 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
         registry_year = get_registry_year(text)
         appraisal_date = get_appraisal_date(text)
         vpt_current, A, Ca, Cq, Cv = get_params_upload(text, registry_year)
-        Cl = float(validated_zone_coef)
+        Cl = float(validated_zone_coef.replace(",", "."))
         successful_calculation = True
 
     elif calc_type == "input":
