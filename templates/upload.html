@@ -13,8 +13,26 @@
           Erro
           {% endif %}
       </h2>
-      <div class="h4-hidden">{{ output_message|safe }}
-        <br><br>
+      <div id="imi-calc-display" class="h4-hidden" data-imi-display='{{ imi_display_dict|tojson }}'>
+        {{ output_message|safe }}
+        {% if imi_display_dict != "" and successful_calculation %}
+          Quantos dependentes tem o agregado familiar?
+          <br><br>
+          <div class="field-container">
+            <select name="numChildren" class="narrow-select" required>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3 ou mais</option>
+            </select>
+            <i class="far fa-question-circle question-mark" text-id="text-0"></i>
+          </div>
+          <div class="help-text" id="text-0">As famílias com filhos podem beneficiar de uma dedução fixa ao valor do IMI, que varia consoante o número de filhos. A atribuição deste benefício fiscal depende das autarquias.</div>
+          <br>
+          <div id="imi-display-updated"></div>
+        {% endif %}
+
+        <br>
         <a href="/">
           <button class="smaller-button smaller-button-color-4">Voltar</button>
         </a>
@@ -23,5 +41,9 @@
   </div>
 
 </section>
+
+<script>
+  initImiDisplay();
+</script>
 
 {% endblock %}

@@ -36,8 +36,9 @@
       <div class="form-container">
         <h4>
           A Caderneta Predial deverá estar em formato PDF e não ser digitalizada.<br><br>
-          Pode obter este documento no formato correcto no site da Autoridade Tributária.
+          Pode obter este documento no formato correcto <a href="https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/consultar-patrimonio-predial" target="_blank">aqui</a>, após inserir os seus dados de acesso.
         </h4>
+
         <form id="upload-terms-form">
           <h6 id="auto-input-h6">
             <table>
@@ -87,19 +88,19 @@
         </div>
         <div class="help-text" id="text-3">O Ano de Inscrição na Matriz é o primeiro campo da secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
-        <h4>Data da última avaliação<i class="far fa-question-circle question-mark" text-id="text-4"></i></h4>
+        <h4>Data da última avaliação<i class="far fa-question-circle question-mark" text-id="text-5"></i></h4>
         <div class="field-container">
           <input autocomplete="off" autofocus name="appraisalDate" placeholder="Avaliada em" required type="date">
         </div>
-        <div class="help-text" id="text-4">A data da última avaliação corresponde ao campo "Avaliada em" na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
+        <div class="help-text" id="text-5">A data da última avaliação corresponde ao campo "Avaliada em" na secção "Dados de Avaliação" da Caderneta Predial Urbana.</div>
 
-        <h4>Coeficientes<i class="far fa-question-circle question-mark" text-id="text-5" id="questionIcon"></i></h4>
+        <h4>Coeficientes<i class="far fa-question-circle question-mark" text-id="text-6" id="questionIcon"></i></h4>
         <div class="field-container coef-container">
           <input autocomplete="off" autofocus name="Ca" placeholder="Ca" required type="text" maxlength="5" onkeypress="return allowOnlyDecimalNums(event)">
           <input autocomplete="off" autofocus name="Cq" placeholder="Cq" required type="text" maxlength="5" onkeypress="return allowOnlyDecimalNums(event)">
           <input autocomplete="off" autofocus name="Cl" placeholder="Cl" required type="text" maxlength="5" onkeypress="return allowOnlyDecimalNums(event)">
         </div>
-        <div class="help-text" id="text-5">
+        <div class="help-text" id="text-6">
             Ca - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi41.aspx" target="_blank">
             Afectação</a>;
             Cq - <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cimi/Pages/cimi43.aspx" target="_blank">
@@ -109,13 +110,13 @@
             neste mapa</a>).
         </div>
 
-        <h4>Códigos numéricos de localização<i class="far fa-question-circle question-mark" text-id="text-6" id="questionIcon"></i></h4>
+        <h4>Códigos numéricos de localização<i class="far fa-question-circle question-mark" text-id="text-7" id="questionIcon"></i></h4>
         <div class="field-container coef-container">
           <input autocomplete="off" autofocus name="propertyDistrict" placeholder="Distrito" required type="text" maxlength="2" onkeypress="return allowOnlyDigits(event)">
           <input autocomplete="off" autofocus name="propertyCouncil" placeholder="Concelho" required type="text" maxlength="2" onkeypress="return allowOnlyDigits(event)">
           <input autocomplete="off" autofocus name="propertyParish" placeholder="Freguesia" required type="text" maxlength="2" onkeypress="return allowOnlyDigits(event)">
         </div>
-        <div class="help-text" id="text-6">
+        <div class="help-text" id="text-7">
             Os códigos de localização têm dois dígitos e encontram-se na primeira secção da
             Caderneta Predial, "Identificação do Prédio". Exemplos: 03, 06, 18...
         </div>

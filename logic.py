@@ -1,4 +1,6 @@
+import os
 import regex
+import pandas as pd
 import datetime as dt
 from dateutil.relativedelta import relativedelta
 from taxas_imi import portugal, gondomar, espinho
@@ -85,6 +87,47 @@ def currency_format(value):
     return f"{int(value):,}".replace(",", "\u2024") + "\u00A0€"
 
 
+def get_deduction(council_code):
+    """ Create a dictionary with the deduction value per dependent for the district_council """
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(BASE_DIR, "deducoes_2025.csv")
+    df = pd.read_csv(
+        csv_path,
+        encoding="utf-8",
+        sep=";",
+        dtype={
+        "codigo_concelho": str,
+        "1": int,
+        "2": int,
+        "3 ou mais": int
+        }
+    )
+    df["0"] = 0
+    df_filtered = df.loc[df["codigo_concelho"] == str(council_code)]
+
+    if not df_filtered.empty:
+        return df_filtered.to_dict(orient="records")[0]
+    else:
+        return {"codigo_concelho": None, "1": None, "2": None, "3 ou mais": None}
+
+
+def apply_deduction(imi_current, imi_new, deduction_dict, too_soon_for_new_appraisal, can_save_money):
+    imi_display_dict = {}
+    for key, deduction in deduction_dict.items():
+        if key != "codigo_concelho":
+            if too_soon_for_new_appraisal:
+                imi_display_dict[key] = ""
+            else:
+                imi_display_dict[key] = (
+                    f"IMI actual: {currency_format(imi_current - deduction)}<br>"
+                    f"IMI após reavaliação: {currency_format(imi_new - deduction)}<br><br>"
+                )
+                if can_save_money:
+                    imi_display_dict[key] += f"Menos IMI, mais para si!"
+    return imi_display_dict
+
+
 def compute_savings(calc_type, text, input_dict, validated_zone_coef):
     """ Compute possible savings based on uploaded file and manual input """
 
@@ -123,7 +166,12 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
     imi_new = round(vpt_new * council_rate, 0)
     imi_savings = imi_current - imi_new
 
+    too_soon_for_new_appraisal = False
+    can_save_money = False
+
     if appraisal_date + relativedelta(years=3) > dt.date.today():
+
+        too_soon_for_new_appraisal = True
 
         output_message = (
             f"Ainda não é possível pedir uma reavaliação.<br><br>A última "
@@ -143,16 +191,15 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
             f"parâmetros de cálculo pela Autoridade Tributária.<br><br>"
             f"Valor Patrimonial actual: {currency_format(vpt_current)}<br>"
             f"Valor Patrimonial após reavaliação: {currency_format(vpt_new)}<br><br>"
-            f"IMI actual: {currency_format(imi_current)}<br>"
-            f"IMI após reavaliação: {currency_format(imi_new)}<br><br>"
             f"Aumento do IMI: {currency_format(abs(imi_savings))}<br><br>"
         )
 
     elif vpt_new <= vpt_current:
-
         # em 2024, Gondomar e Espinho são os únicos concelhos com taxas diferentes em algumas freguesias
 
         if imi_savings >= 10:
+
+            can_save_money = True
 
             output_message = (
                 f"Você pode passar a pagar menos IMI!<br><br>Poderá poupar "
@@ -162,14 +209,10 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
                 f"(à taxa de {str(dt.date.today().year)}).<br><br>"
                 f"Valor Patrimonial actual: {currency_format(vpt_current)}<br>"
                 f"Valor Patrimonial após reavaliação: {currency_format(vpt_new)}<br><br>"
-                f"IMI actual: {currency_format(imi_current)}<br>"
-                f"IMI após reavaliação: {currency_format(imi_new)}<br><br>"
-                f"Redução do IMI: {currency_format(imi_savings)}<br><br><br>"
-                f"Menos IMI, mais para si!"
+                f"Redução do IMI: {currency_format(imi_savings)}<br><br>"
             )
 
         # não há poupança ou esta é inferior a 10 €.
-
         else:
 
             imi_savings_low = "{:.2f}".format(round(vpt_current \
@@ -184,9 +227,16 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
                 f"consulte o seu Serviço de Finanças.<br><br>"
                 f"Valor Patrimonial actual: {currency_format(vpt_current)}<br>"
                 f"Valor Patrimonial após reavaliação: {currency_format(vpt_new)}<br><br>"
-                f"IMI actual: {currency_format(imi_current)}<br>"
-                f"IMI após reavaliação: {currency_format(imi_new)}<br><br>"
                 f"Redução do IMI: {imi_savings_low}<br><br>"
             )
 
-    return successful_calculation, output_message
+    deduction_dict = get_deduction(district_council)
+    imi_display_dict = apply_deduction(
+        imi_current,
+        imi_new,
+        deduction_dict,
+        too_soon_for_new_appraisal,
+        can_save_money
+        )
+
+    return successful_calculation, output_message, imi_display_dict

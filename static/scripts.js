@@ -362,3 +362,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 });
+
+
+// For displaying the IMI calculation by choosing the right text and calculations from the dependants dropdown
+function initImiDisplay() {
+    const container = document.getElementById("imi-calc-display");
+    if (!container) return;
+    const imiDisplayDict = JSON.parse(container.dataset.imiDisplay);
+    const selectField = document.querySelector("select[name='numChildren']");
+    const imiDisplayUpdated = document.getElementById("imi-display-updated");
+    imiDisplayUpdated.innerHTML = imiDisplayDict["0"] || "";
+    selectField.addEventListener("change", function () {
+      const selectedValue = selectField.value;
+      const key = selectedValue >= 3 ? "3 ou mais" : selectedValue;
+      const newImiDisplay = imiDisplayDict[key] || "";
+      imiDisplayUpdated.innerHTML = newImiDisplay;
+  });
+}
