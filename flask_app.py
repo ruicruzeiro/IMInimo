@@ -60,12 +60,18 @@ def upload():
     if were_terms_accepted != 'true':
         sys.exit("Invalid acceptance of terms & conditions and policies.")
     text = request.form.get("textInput")
-    successful_calculation, output_message = compute_savings("upload", text, {}, validated_zone_coef)
+    (
+        successful_calculation,
+        output_message,
+        imi_display_dict
+    ) = compute_savings("upload", text, {}, validated_zone_coef)
 
     return render_template(
         "upload.html",
         successful_calculation=successful_calculation,
-        output_message=output_message), 400
+        output_message=output_message,
+        imi_display_dict=imi_display_dict
+        ), 400
 
 
 @app.route("/input", methods=["GET", "POST"])
@@ -73,12 +79,18 @@ def input():
     """ Page for manual input of CPU data """
 
     validated_zone_coef = False
-    successful_calculation, output_message = compute_savings("input", "", request.form, validated_zone_coef)
+    (
+        successful_calculation,
+        output_message,
+        imi_display_dict
+    ) = compute_savings("input", "", request.form, validated_zone_coef)
 
     return render_template(
         "input.html",
         successful_calculation=successful_calculation,
-        output_message=output_message), 400
+        output_message=output_message,
+        imi_display_dict=imi_display_dict
+        ), 400
 
 
 @app.route("/invalid-pdf")
