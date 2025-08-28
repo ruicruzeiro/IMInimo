@@ -187,7 +187,7 @@ def compute_savings(calc_type, text, input_dict, validated_zone_coef):
         output_message = (
             f"Não é aconselhável pedir já uma reavaliação.<br><br>Uma "
             f"reavaliação pedida neste momento irá fazer subir o Valor Patrimonial "
-            f"do imóvel. Esta situação poderá dever-se à subida de alguns dos"
+            f"do imóvel. Esta situação poderá dever-se à subida de alguns dos "
             f"parâmetros de cálculo pela Autoridade Tributária.<br><br>"
             f"Valor Patrimonial actual: {currency_format(vpt_current)}<br>"
             f"Valor Patrimonial após reavaliação: {currency_format(vpt_new)}<br><br>"
